@@ -34,8 +34,8 @@ $string['recipientisrequired'] = 'You must specify the recipient\'s email addres
 $string['errorsend'] = 'The test email message could not be delivered to the SMTP server. Check your <a href="../../admin/settings.php?section=messagesettingemail" target="blank">SMTP settings</a>.';
 $string['sendtest'] = 'Send a test message';
 $string['sentmail'] = 'The test message was successfully delivered to the SMTP server.';
-$string['registered'] = 'Registered user ($a)';
-$string['notregistered'] = 'Not registered (or not logged in)';
+$string['registered'] = 'Registered user ({$a}).';
+$string['notregistered'] = 'Not registered or not logged in.';
 $string['message'] = '<p>This is a test message. Please disregard.</p>
 <hr><p><strong>Additional User Information</strong></p>
 <ul>

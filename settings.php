@@ -15,12 +15,15 @@
 // along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Adds Mail Test link to admin menu. There are no settings for this plugin.
+ * Adds Mail Test link to the Site Administration > Server menu.
+ * There are no settings for this plugin.
  *
  * @package    local_mailtest
- * @copyright  2015 TNG Consulting Inc.
+ * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
+ * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {

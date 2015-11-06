@@ -26,11 +26,15 @@
 defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir.'/formslib.php');
 
-/*
- * Form which prompts administrator for the recipient's email address.
+/**
+ * Form to prompt administrator for the recipient's email address.
+ *
  */
 class mailtest_form extends moodleform {
 
+    /**
+     * Defines the form
+     */
     public function definition() {
         $mform = $this->_form;
 
@@ -54,6 +58,9 @@ class mailtest_form extends moodleform {
         $mform->closeHeaderBefore('buttonar');
     }
 
+    /**
+     * Validates form data
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 

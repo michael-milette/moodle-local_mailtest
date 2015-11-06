@@ -18,7 +18,7 @@
  * Library of functions to support the MailTest plugin.
  *
  * @package    local_mailtest
- * @copyright  TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -57,6 +57,8 @@ function local_mailtest_generate_email_user($email, $name='') {
  * @param string $heading The text of the heading.
  * @param int $level The level of importance of the heading. Defaulting to 2.
  * @param string $classes A space-separated list of CSS classes.
+ * @param string $link The link where you want the Continue button to take the user.
+ *      Only displays the continue button if the link URL was specified.
  * @param string $id An optional ID. Is applied to body instead of heading if no heading.
  * @return string the HTML to output.
  */

@@ -3,7 +3,7 @@ Local MailTest plugin for Moodle
 
 Copyright
 ---------
-Copyright © 2014-2015 TNG Consulting Inc. - http://www.tngconsulting.ca
+Copyright © 2015 TNG Consulting Inc. - http://www.tngconsulting.ca
 
 This file is part of MailTest for Moodle - http://moodle.org/
 
@@ -45,7 +45,7 @@ Changes
 Installation
 ------------
 Install the plugin, like any other plugin, to the following folder:
-/local/cms
+/local/mailtest
 
 See http://docs.moodle.org/27/en/Installing_plugins for details
 on installing Moodle plugins.
@@ -54,7 +54,7 @@ Unininstallation
 ----------------
 Uninstalling the plugin by going into the following:
 
-Home > Administration > Site Administration > Plugins > Manage plugins
+Home > Administration > Site Administration > Plugins > Manage plugins > MailTest
 
 ...and click Uninstall. You may also need to delete the following folder:
 
