@@ -43,5 +43,6 @@ $string['message'] = '<p>This is a test message. Please disregard.</p>
 <li><strong>Preferred language :</strong> {$a->lang}</li>
 <li><strong>User\'s web browser :</strong> {$a->browser}</li>
 <li><strong>Message submitted from :</strong> {$a->referer}</li>
+<li><strong>Moodle version :</strong> {$a->release}</li>
 <li><strong>User IP address :</strong> {$a->ip}</li>
 </ul>';

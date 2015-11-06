@@ -115,6 +115,7 @@ if (!$data) { // Display the form.
     $a->lang = current_language();
     $a->browser = $_SERVER['HTTP_USER_AGENT'];
     $a->referer = $_SERVER['HTTP_REFERER'];
+    $a->release = $CFG->release;
     $a->ip = local_mailtest_getuserip();
     $messagehtml = get_string('message', 'local_'.$pluginname, $a);
     $messagetext = html_to_text($messagehtml);
