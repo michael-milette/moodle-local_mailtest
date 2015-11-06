@@ -78,26 +78,40 @@ function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = nu
 }
 
 /**
- * Get the ip address of the visitor. Will attempt to get public address first and then check private range.
+ * Get the IP address of the visitor.
  *
- * @return ip address. If an ip address cannot be identified, will return 0.0.0.0.
+ * @return IP address. If a public IP address cannot be identified, the private IP address will be return instead.
  */
 function local_mailtest_getuserip() {
     $fieldlist = array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED',
             'REMOTE_ADDR', 'HTTP_CF_CONNECTING_IP', 'HTTP_X_CLUSTER_CLIENT_IP');
 
     // Public range first.
-    $filterlist = array(FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV4);
+    $filterlist = array(
+        FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+        FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+    );
+
     foreach ($filterlist as $filter) {
         foreach ($fieldlist as $field) {
-            if (!array_key_exists($field, $_SERVER) || empty($_SERVER[$field])) {
+
+        if (!array_key_exists($field, $_SERVER) || empty($_SERVER[$field])) {
                 continue;
             }
+
             $iplist = explode(',', $_SERVER[$field]);
             foreach ($iplist as $ip) {
+
                 // Strips off port number if it exists.
-                list($ip) = explode(':', $ip);
-                // Sanitize.
+                if (substr_count($ip, ':') == 1) {
+                    // IPv4 with a port.
+                    list($ip) = explode(':', $ip);
+                } else if ($start = (substr($ip, 0, 1) == '[') && $end = strpos($ip, ']:') !== false) {
+                    // IPv6 with a port.
+                    $ip = substr($ip, $start+1, $end-2);
+                }
+                // Sanitize so that we only get public addresses.
+                $lastip = $ip; // But save other address just in case.
                 $ip = filter_var(trim($ip), FILTER_VALIDATE_IP, $filter);
                 if ($ip !== false) {
                     return($ip);
@@ -105,5 +119,6 @@ function local_mailtest_getuserip() {
             }
         }
     }
-    return("0.0.0.0");
+    // Private or restricted range.
+    return($lastip);
 }
