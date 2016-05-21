@@ -12,13 +12,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Version information for MailTest.
  *
  * @package    local_mailtest
- * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mailtest';  // To check on upgrade, that module sits in correct place
-$plugin->version   = 2015110102;        // The current module version (Date: YYYYMMDDXX)
+$plugin->version   = 2016052103;        // The current module version (Date: YYYYMMDDXX)
 $plugin->requires  = 2012062500;        // Requires Moodle version 2.5.
-$plugin->release   = '0.2';
+$plugin->release   = '0.3';
 $plugin->maturity  = MATURITY_BETA;
 $plugin->cron      = 0;

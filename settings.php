@@ -19,7 +19,7 @@
  * There are no settings for this plugin.
  *
  * @package    local_mailtest
- * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

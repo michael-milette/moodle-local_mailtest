@@ -18,7 +18,7 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @dependancies None.
@@ -68,7 +68,16 @@ admin_externalpage_setup('local_'.$pluginname); // Sets the navbar & expands nav
 
 // Setup the form.
 
-$form = new mailtest_form();
+if (!empty($CFG->emailonlyfromnoreplyaddress) && !empty($CFG->noreplyaddress)) {
+    // Use site name if Moodle Support Name is not available.
+    $supportname = (trim($CFG->supportname) == '' ? $SITE->fullname : $CFG->supportname);
+    $fromemail = local_mailtest_generate_email_user($CFG->noreplyaddress, format_string($supportname));
+} else {
+    $fromemail = $USER;
+}
+$fromdefault = $fromemail->email;
+
+$form = new mailtest_form(null, array('fromdefault' => $fromdefault));
 if ($form->is_cancelled()) {
     redirect($homeurl);
 }
@@ -85,13 +94,7 @@ if (!$data) { // Display the form.
 
 } else {      // Send test email.
 
-    if (!empty($CFG->emailonlyfromnoreplyaddress) && !empty($CFG->noreplyaddress)) {
-        // Use site name if Moodle Support Name is not available.
-        $supportname = (trim($CFG->supportname) == '' ? $SITE->fullname : $CFG->supportname);
-        $fromemail = local_mailtest_generate_email_user($CFG->noreplyaddress, format_string($supportname));
-    } else {
-        $fromemail = $USER;
-    }
+    $fromemail = local_mailtest_generate_email_user($data->sender);
 
     if ($CFG->branch >= 26) {
         $toemail = core_text::strtolower($data->recipient);
@@ -137,7 +140,11 @@ if (!$data) { // Display the form.
             // Display debugging info if settings were already on before the test.
             echo $smtplog;
         }
-        $msg = get_string('sentmail', 'local_'.$pluginname);
+        if (empty($CFG->smtphosts)) {
+            $msg = get_string('sentmailphp', 'local_'.$pluginname);
+        } else {
+            $msg = get_string('sentmail', 'local_'.$pluginname);
+        }
         local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);
     } else { // Email could not be delivered to the SMTP mail server.
         echo $smtplog; // Display SMTP dialogue.

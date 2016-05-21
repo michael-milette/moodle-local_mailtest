@@ -18,7 +18,7 @@
  * Library of functions to support the MailTest plugin.
  *
  * @package    local_mailtest
- * @copyright  2015 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -95,7 +95,7 @@ function local_mailtest_getuserip() {
     foreach ($filterlist as $filter) {
         foreach ($fieldlist as $field) {
 
-        if (!array_key_exists($field, $_SERVER) || empty($_SERVER[$field])) {
+            if (!array_key_exists($field, $_SERVER) || empty($_SERVER[$field])) {
                 continue;
             }
 
@@ -108,7 +108,7 @@ function local_mailtest_getuserip() {
                     list($ip) = explode(':', $ip);
                 } else if ($start = (substr($ip, 0, 1) == '[') && $end = strpos($ip, ']:') !== false) {
                     // IPv6 with a port.
-                    $ip = substr($ip, $start+1, $end-2);
+                    $ip = substr($ip, $start + 1, $end - 2);
                 }
                 // Sanitize so that we only get public addresses.
                 $lastip = $ip; // But save other address just in case.

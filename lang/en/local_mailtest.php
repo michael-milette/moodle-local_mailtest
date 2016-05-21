@@ -18,7 +18,7 @@
  * Strings for component 'local_mailtest', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    local_mailtest
- * @copyright  TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2016 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,17 +26,26 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Mail Test';
-$string['pluginname_help'] = 'Mail Test will check the Moodle site\'s email configuration by sending an email message to a specified email address. For Site Administrators only.';
-$string['credit'] = 'Michael Milette - <a href="http://www.instruxmedia.com/">TNG Consulting Inc.</a>';
+$string['pluginname_help'] = 'Mail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
+$string['from'] = '{$a->type}: <strong>{$a->email}</strong> (<a href="{$a->url}">{$a->label}</a>)';
+$string['credit'] = 'Michael Milette - <a href="http://www.tngconsulting.ca/">TNG Consulting Inc.</a>';
 
 $string['heading'] = 'Email configuration test';
 $string['recipientisrequired'] = 'You must specify the recipient\'s email address.';
-$string['errorsend'] = 'The test email message could not be delivered to the SMTP server. Check your <a href="../../admin/settings.php?section=messagesettingemail" target="blank">SMTP settings</a>.';
+$string['errorsend'] = 'The test email message could not be delivered to the mail server. Check your <a href="../../admin/settings.php?section=messagesettingemail" target="blank">Email settings</a>.';
+$string['fromemail'] = 'From email address';
+$string['toemail'] = 'To email address';
+$string['youremail'] = 'Your email address';
 $string['sendtest'] = 'Send a test message';
-$string['sentmail'] = 'The test message was successfully delivered to the SMTP server.';
+$string['sendmethod'] = 'Email send method';
+$string['sentmail'] = 'Moodle succesfully delivered the test message to the SMTP mail server.';
+$string['sentmailphp'] = 'The Moodle test message was successfully accepted by PHP Mail.';
 $string['registered'] = 'Registered user ({$a}).';
 $string['notregistered'] = 'Not registered or not logged in.';
+$string['phpmethod'] = 'PHP default method';
+$string['smtpmethod'] = 'SMTP hosts: {$a}';
 $string['message'] = '<p>This is a test message. Please disregard.</p>
+<p>If you received this email, it means that you have succesfully configured your Moodle site\'s email settings.</p>
 <hr><p><strong>Additional User Information</strong></p>
 <ul>
 <li><strong>Registration status :</strong> {$a->regstatus}</li>
@@ -44,5 +53,5 @@ $string['message'] = '<p>This is a test message. Please disregard.</p>
 <li><strong>User\'s web browser :</strong> {$a->browser}</li>
 <li><strong>Message submitted from :</strong> {$a->referer}</li>
 <li><strong>Moodle version :</strong> {$a->release}</li>
-<li><strong>User IP address :</strong> {$a->ip}</li>
+<li><strong>User\'s IP address :</strong> {$a->ip}</li>
 </ul>';
