@@ -25,11 +25,12 @@
  *
  */
 
-$pluginname = 'mailtest';
-
 // Include config.php.
 require_once(__DIR__.'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
+
+// Include our function library.
+$pluginname = 'mailtest';
 require_once($CFG->dirroot.'/local/'.$pluginname.'/locallib.php');
 
 // Globals.
@@ -90,6 +91,36 @@ $data = $form->get_data();
 if (!$data) { // Display the form.
 
     echo $OUTPUT->heading($heading);
+
+    // Display a warning if Cron hasn't run in a while. =============.
+    if ($CFG->version >= 2014051200) { // Moodle 2.7+.
+        $sql = 'SELECT MAX(lastruntime) FROM {task_scheduled}';
+    } else {
+        $sql = 'SELECT MAX(lastcron) FROM {modules}';
+    }
+    $cronlastrun = $DB->get_field_sql($sql);
+    if ($cronlastrun <= time() - 3600 * 24) { // Cron is overdue.
+        $msg = '';
+        $msg .= '<button type="button" class="close" data-dismiss="alert">×</button>';
+        $msg .= '<p>';
+        $msg .= '<strong>' . get_string('warning') . '</strong> - ';
+        if (empty($CFG->cronclionly)) {
+            $msg .= get_string('cronwarning', 'admin', '/admin/cron.php');
+        } else {
+            $msg .= get_string('cronwarningcli', 'admin');
+        }
+        $msg .= '</p>';
+        $msg .= '<p>' . get_string('cron_help', 'admin');
+        if (!empty($CFG->branch)) {
+            $icon = $OUTPUT->pix_icon('help', get_string('moreinfo'));
+            $link = $CFG->docroot . '/' . $CFG->branch . '/' . substr(current_language(), 0, 2) . '/Cron';
+            $msg .= html_writer::link($link, $icon, array('class' => 'helplink', 'target' => '_blank', 'rel' => 'external'));
+        }
+        $msg .= '</p>';
+        local_mailtest_msgbox($msg, null, 3, 'alert alert-error alert-block fade in');
+    }
+
+    // Display the form. ============================================.
     $form->display();
 
 } else {      // Send test email.
@@ -136,6 +167,7 @@ if (!$data) { // Display the form.
     $CFG->debugsmtp = $debugsmtp;
 
     if ($success) { // Success.
+
         if ($debugdisplay && $debugsmtp) {
             // Display debugging info if settings were already on before the test.
             echo $smtplog;
@@ -146,12 +178,25 @@ if (!$data) { // Display the form.
             $msg = get_string('sentmail', 'local_'.$pluginname);
         }
         local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);
-    } else { // Email could not be delivered to the SMTP mail server.
-        echo $smtplog; // Display SMTP dialogue.
-        $msg = get_string('errorsend', 'local_'.$pluginname);
-        local_mailtest_msgbox($msg, get_string('emailfail', 'error'), 2, 'errorbox', $url);
-    }
 
+    } else { // Failed to deliver message to the SMTP mail server.
+
+        if (trim($smtplog) == false) { // No communication between Moodle and the SMTP server.
+            $errstring = 'errorcommunications';
+        } else { // SMTP mail server refused the email.
+            $errstring = 'errorsend';
+            // Display the results of the dialogue between Moodle and the SMTP server.
+            echo $smtplog;
+        }
+
+        if ($CFG->branch > 31) {
+            $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=outgoingmailconfig');
+        } else {
+            $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=messagesettingemail');
+        }
+        local_mailtest_msgbox($msg, get_string('emailfail', 'error'), 2, 'errorbox', $url);
+
+    }
 }
 
 // Footing  =========================================================.

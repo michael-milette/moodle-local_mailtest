@@ -50,7 +50,13 @@ class mailtest_form extends moodleform {
         } else {
             $sendmethod = get_string('smtpmethod', 'local_mailtest', $CFG->smtphosts);
         }
-        $sendmethod .= ' (<a href="../../admin/settings.php?section=messagesettingemail">'.get_string('change', 'admin').'</a>)';
+        if ($CFG->branch > 31) {
+            $sendmethod .= ' (<a href="../../admin/settings.php?section=outgoingmailconfig#admin-smtphosts">' .
+                    get_string('change', 'admin').'</a>)';
+        } else {
+            $sendmethod .= ' (<a href="../../admin/settings.php?section=messagesettingemail">' .
+                    get_string('change', 'admin').'</a>)';
+        }
         $mform->addElement('static', 'sendmethod',  get_string('sendmethod', 'local_mailtest'), $sendmethod);
 
         // Sender.
@@ -58,15 +64,24 @@ class mailtest_form extends moodleform {
         $a = new stdClass();
         $a->label = get_string('change', 'admin');
         $a->email = $CFG->noreplyaddress;
-        $a->url = "../../admin/settings.php?section=messagesettingemail#noreplyaddress";
-        $a->type = get_string('noreplyaddress', 'message_email');
+        if ($CFG->branch > 31) {
+            $a->url = '../../admin/settings.php?section=outgoingmailconfig#admin-noreplyaddress';
+            $a->type = get_string('noreplyaddress', 'admin');
+        } else {
+            $a->url = '../../admin/settings.php?section=messagesettingemail#noreplyaddress';
+            $a->type = get_string('noreplyaddress', 'message_email');
+        }
         $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
         $a->email = $USER->email;
-        $a->url = "../../user/editadvanced.php?course=1#fitem_id_email";
+        if ($CFG->branch > 31) {
+            $a->url = '../../user/editadvanced.php?course=1#id_email';
+        } else {
+            $a->url = '../../user/editadvanced.php?course=1#fitem_id_email';
+        }
         $a->type = get_string('youremail', 'local_mailtest');
         $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
         $a->email = $CFG->supportemail;
-        $a->url = "../../admin/settings.php?section=supportcontact";
+        $a->url = '../../admin/settings.php?section=supportcontact';
         $a->type = get_string('supportemail', 'admin');
         $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
         $mform->addGroup($senderarray, 'senderar', get_string('fromemail', 'local_mailtest'), array('<br />'), false);

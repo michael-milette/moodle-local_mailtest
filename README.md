@@ -5,7 +5,7 @@ Copyright
 ---------
 Copyright © 2015-2016 TNG Consulting Inc. - http://www.tngconsulting.ca/
 
-This file is part of MailTest for Moodle - http://moodle.org/
+This file is part of MailTest/eMailTest for Moodle - http://moodle.org/
 
 MailTest is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ Installation and Update
 Install the plugin, like any other plugin, to the following folder:
 /local/mailtest
 
-See http://docs.moodle.org/31/en/Installing_plugins for details
+See http://docs.moodle.org/32/en/Installing_plugins for details
 on installing Moodle plugins.
 
 There are no special considerations required for updating the plugin.
@@ -58,7 +58,7 @@ Unininstallation
 ----------------
 Uninstalling the plugin by going into the following:
 
-Home > Administration > Site Administration > Plugins > Manage plugins > MailTest
+Home > Administration > Site Administration > Plugins > Manage plugins > eMailTest
 
 ...and click Uninstall. You may also need to delete the following folder:
 
@@ -73,7 +73,7 @@ There are no settings for this plugin.
 
 Once installed, login as an administrator and then click:
 
-    Home > Site Administration > Server > Mail Test
+    Home > Site Administration > Server > eMail Test
 
 Enter the email address of the recipient where you want to send the message
 and click the [Send a test message] button.
@@ -112,7 +112,7 @@ feel free to prepare a pull request and submit it to the project page at:
 
 FAQ
 ---
-Question: Why do I get a 500 server error when I use MailTest?
+Question: Why do I get a 500 server error when I use eMailTest?
 Answer: This plugin has been extensively tested and used on hundreds of sites.
 If you are getting this error, it is likely that you have a permissions
 issue on your server which needs to be resolved.
@@ -149,8 +149,15 @@ SMTP server.
 
 Question: How can I use this tool to send emails to other email addresses?
 Answer: You can't at the moment. If you really must, temporarily apply the
-email address to one of the three "From" addresses: 
+email address to one of the three "From" addresses:
 
 * Your user account
 * No-reply
 * Support
+
+Question: Why do I see a message about cron not having run for at least 24 hours?
+Answer: IMPORTANT - See https://docs.moodle.org/32/en/Cron . If a link is
+included within the message, clicking it will cause Moodle to try sending queued
+messages immediately. However, future message will still not be sent automatically.
+Although the notice will go away for 24 hours, it will return until you fix
+this issue.

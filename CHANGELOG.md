@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [1.0.0] - 2016-11-27
+### Added
+- A notification will now be displayed if cron hasn't run in the last 24 hours.
+- FAQ, in README.md, indicating what to do if you see the new cron notification.
+- Provides better recommendations depending on whether the SMTP server
+  refused communications from Moodle or it refused delivery of the message.
+
+### Changed
+- Changed the visible name of the plugin to eMail Test to help people find it.
+- Since there have been no issues reported, the plugin is now considered STABLE.
+- The link to eMail Test will now appear in the Email section of the Server tab
+  in Moodle 3.2's new Site Adminstration page.
+- Moodle eMailTest has been successfully tested with for compatibility
+  with Moodle 2.5 to 3.2.
 
 ## [0.3.0] - 2016-05-21
 ### Added

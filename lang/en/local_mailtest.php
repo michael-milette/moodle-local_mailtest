@@ -25,14 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Mail Test';
-$string['pluginname_help'] = 'Mail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
+$string['pluginname'] = 'eMail Test';
+$string['pluginname_help'] = 'eMail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
 $string['from'] = '{$a->type}: <strong>{$a->email}</strong> (<a href="{$a->url}">{$a->label}</a>)';
 $string['credit'] = 'Michael Milette - <a href="http://www.tngconsulting.ca/">TNG Consulting Inc.</a>';
 
 $string['heading'] = 'Email configuration test';
 $string['recipientisrequired'] = 'You must specify the recipient\'s email address.';
-$string['errorsend'] = 'The test email message could not be delivered to the mail server. Check your <a href="../../admin/settings.php?section=messagesettingemail" target="blank">Email settings</a>.';
+$string['errorsend'] = 'The test message could not be delivered to the mail server.</p><p><strong>Recommendation:</strong></p><p>Check your Moodle <a href="{$a}" target="blank">Email settings</a>.';
+$string['errorcommunications'] = 'Moodle could not communicate with your mail server.</p><p><strong>Recommendation:</strong></p><p>Start by checking your Moodle <a href="{$a}">SMTP mail settings</a>.<p>If they look correct, check your SMTP Server and/or firewall settings to ensure that they are configured to accept SMTP connections from your Moodle web server and from your no-reply email address.';
 $string['fromemail'] = 'From email address';
 $string['toemail'] = 'To email address';
 $string['youremail'] = 'Your email address';

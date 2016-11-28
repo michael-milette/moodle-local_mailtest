@@ -15,7 +15,7 @@
 // along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Adds Mail Test link to the Site Administration > Server menu.
+ * Adds eMail Test link to the Site Administration > Server menu.
  * There are no settings for this plugin.
  *
  * @package    local_mailtest
@@ -27,7 +27,12 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
-    $ADMIN->add('server', new admin_externalpage('local_mailtest',
+    if ($CFG->branch > 31) { // Moodle 3.2 and later.
+        $section = 'email';
+    } else { // Up to and including Moodle 3.1.x .
+        $section = 'server';
+    }
+    $ADMIN->add($section, new admin_externalpage('local_mailtest',
             get_string('pluginname', 'local_mailtest'),
             new moodle_url('/local/mailtest/')
     ));
