@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2016-01-02
+### Updated
+- Made source code comments clearer and phpdoc valid.
+- Corrected and updated copyright notice to include 2017.
+- Corrected missing closing </p> tag in English language file. (Thanks lucaboesch!)
+
 ## [1.0.0] - 2016-11-27
 ### Added
 - A notification will now be displayed if cron hasn't run in the last 24 hours.
@@ -23,7 +29,7 @@ All notable changes to this project will be documented in this file.
 - Link to plugin's discussion forum in the plugin's Moodle.org Plugins directory.
 - README.md now contains answers to common questions.
 - Displays whether using PHP mail() function or talking directly to the SMTP server.
-- Option to choose whether test email will be sent from your email address, 
+- Option to choose whether test email will be sent from your email address,
   the noreply user email address, or the support email address.
 - Moodle MailTest is now compatible with Moodle 2.5 to 3.1 LTS.
 

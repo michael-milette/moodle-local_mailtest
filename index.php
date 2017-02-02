@@ -18,11 +18,9 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2017 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @dependancies None.
- *
  */
 
 // Include config.php.
@@ -54,7 +52,7 @@ require_once(dirname(__FILE__).'/class/'.$pluginname.'_form.php');
 $title = get_string('pluginname', 'local_'.$pluginname);
 $heading = get_string('heading', 'local_'.$pluginname);
 $url = new moodle_url('/local/'.$pluginname.'/');
-if ($CFG->version >= 2013051400) { // Moodle 2.5+.
+if ($CFG->branch >= 25) { // Moodle 2.5+.
     $context = context_system::instance();
 } else {
     $context = get_system_context();
@@ -70,9 +68,10 @@ admin_externalpage_setup('local_'.$pluginname); // Sets the navbar & expands nav
 // Setup the form.
 
 if (!empty($CFG->emailonlyfromnoreplyaddress) && !empty($CFG->noreplyaddress)) {
-    // Use site name if Moodle Support Name is not available.
-    $supportname = (trim($CFG->supportname) == '' ? $SITE->fullname : $CFG->supportname);
-    $fromemail = local_mailtest_generate_email_user($CFG->noreplyaddress, format_string($supportname));
+    // Use primary administrator's name if support name has not been configured.
+    $primaryadmin = get_admin();
+    $CFG->supportname = empty($CFG->supportname) ? fullname($primaryadmin, true) : $CFG->supportname;
+    $fromemail = local_mailtest_generate_email_user($CFG->noreplyaddress, format_string($CFG->supportname));
 } else {
     $fromemail = $USER;
 }
@@ -93,7 +92,7 @@ if (!$data) { // Display the form.
     echo $OUTPUT->heading($heading);
 
     // Display a warning if Cron hasn't run in a while. =============.
-    if ($CFG->version >= 2014051200) { // Moodle 2.7+.
+    if ($CFG->branch >= 27) { // Moodle 2.7+.
         $sql = 'SELECT MAX(lastruntime) FROM {task_scheduled}';
     } else {
         $sql = 'SELECT MAX(lastcron) FROM {modules}';
@@ -189,7 +188,7 @@ if (!$data) { // Display the form.
             echo $smtplog;
         }
 
-        if ($CFG->branch > 31) {
+        if ($CFG->branch >= 32) {
             $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=outgoingmailconfig');
         } else {
             $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=messagesettingemail');

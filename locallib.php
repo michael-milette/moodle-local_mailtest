@@ -15,10 +15,10 @@
 // along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of functions to support the MailTest plugin.
+ * Library of functions for MailTest.
  *
  * @package    local_mailtest
- * @copyright  2016 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2017 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,11 +27,14 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Generate a user info object based on provided parameters.
- * @param $string $email plain text email address.
- * @param $string $name plain text real name (optional).
- * @return object user info.
+ *
+ * @param      string  $email  plain text email address.
+ * @param      string  $name   (optional) plain text real name.
+ * @param      int     $id     The identifier
+ *
+ * @return     object  user info.
  */
-function local_mailtest_generate_email_user($email, $name='') {
+function local_mailtest_generate_email_user($email, $name = '', $id = -99) {
     $emailuser = new stdClass();
     $emailuser->email = trim(filter_var($email, FILTER_SANITIZE_EMAIL));
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -42,7 +45,7 @@ function local_mailtest_generate_email_user($email, $name='') {
     $emailuser->lastname = '';
     $emailuser->maildisplay = true;
     $emailuser->mailformat = 1; // 0 (zero) text-only emails, 1 (one) for HTML emails.
-    $emailuser->id = -99;
+    $emailuser->id = $id;
     $emailuser->firstnamephonetic = '';
     $emailuser->lastnamephonetic = '';
     $emailuser->middlename = '';
@@ -53,14 +56,18 @@ function local_mailtest_generate_email_user($email, $name='') {
 /**
  * Outputs a message box.
  *
- * @param string $text The text of the message.
- * @param string $heading The text of the heading.
- * @param int $level The level of importance of the heading. Defaulting to 2.
- * @param string $classes A space-separated list of CSS classes.
- * @param string $link The link where you want the Continue button to take the user.
- *      Only displays the continue button if the link URL was specified.
- * @param string $id An optional ID. Is applied to body instead of heading if no heading.
- * @return string the HTML to output.
+ * @param      string  $text     The text of the message.
+ * @param      string  $heading  (optional) The text of the heading.
+ * @param      int     $level    (optional) The level of importance of the
+ *                               heading. Default: 2.
+ * @param      string  $classes  (optional) A space-separated list of CSS
+ *                               classes.
+ * @param      string  $link     (optional) The link where you want the Continue
+ *                               button to take the user. Only displays the
+ *                               continue button if the link URL was specified.
+ * @param      string  $id       (optional) An optional ID. Is applied to body
+ *                               instead of heading if no heading.
+ * @return     string  the HTML to output.
  */
 function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = null, $link = null, $id = null) {
     global $OUTPUT;
@@ -78,9 +85,9 @@ function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = nu
 }
 
 /**
- * Get the IP address of the visitor.
+ * Get the user's public or private IP address.
  *
- * @return IP address. If a public IP address cannot be identified, the private IP address will be return instead.
+ * @return     string  Public IP address or the private IP address if the public address cannot be identified.
  */
 function local_mailtest_getuserip() {
     $fieldlist = array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED',
@@ -120,5 +127,5 @@ function local_mailtest_getuserip() {
         }
     }
     // Private or restricted range.
-    return($lastip);
+    return $lastip;
 }
