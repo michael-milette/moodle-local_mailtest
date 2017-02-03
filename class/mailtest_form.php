@@ -65,16 +65,7 @@ class mailtest_form extends moodleform {
         $senderarray = array();
         $a = new stdClass();
         $a->label = get_string('change', 'admin');
-        // No Reply address.
-        $a->email = $CFG->noreplyaddress;
-        if ($CFG->branch >= 32) {
-            $a->url = '../../admin/settings.php?section=outgoingmailconfig#admin-noreplyaddress';
-            $a->type = get_string('noreplyaddress', 'admin');
-        } else {
-            $a->url = '../../admin/settings.php?section=messagesettingemail#noreplyaddress';
-            $a->type = get_string('noreplyaddress', 'message_email');
-        }
-        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+
         // Current user's email address.
         $a->email = $USER->email;
         if ($CFG->branch >= 32) {
@@ -84,21 +75,64 @@ class mailtest_form extends moodleform {
         }
         $a->type = get_string('youremail', 'local_mailtest');
         $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        if (!validate_email($a->email)) {
+            $senderarray[] = $mform->CreateElement('static', 'error', '',
+                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+        }
+
         // Support email address.
-        $primaryadmin = get_admin(); // Get the default email address in case Support Email address is not set.
+        $primaryadmin = get_admin();
         $a->email = empty($CFG->supportemail) ? $primaryadmin->email : $CFG->supportemail;
         $a->url = '../../admin/settings.php?section=supportcontact';
         $a->type = get_string('supportemail', 'admin');
         $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        if (!validate_email($a->email)) {
+            $senderarray[] = $mform->CreateElement('static', 'error', '',
+                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+        }
 
-        $mform->addGroup($senderarray, 'senderar', get_string('fromemail', 'local_mailtest'), array('<br />'), false);
+        // No Reply address.
+        $a->email = empty($CFG->noreplyaddress) ? 'noreply@' . get_host_from_url($CFG->wwwroot) : $CFG->noreplyaddress;
+        if ($CFG->branch >= 32) {
+            $a->url = '../../admin/settings.php?section=outgoingmailconfig#admin-noreplyaddress';
+            $a->type = get_string('noreplyaddress', 'admin');
+        } else {
+            $a->url = '../../admin/settings.php?section=messagesettingemail#noreplyaddress';
+            $a->type = get_string('noreplyaddress', 'message_email');
+        }
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        if (!validate_email($a->email)) {
+            $senderarray[] = $mform->CreateElement('static', 'error', '',
+                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+        }
+
+        // Primary admin email address.
+        $primaryadmin = get_admin();
+        $a->email = $primaryadmin->email;
+        $a->url = '../../user/editadvanced.php?id=' . $primaryadmin->id;
+        $a->type = get_string('primaryadminemail', 'local_mailtest');
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        if (!validate_email($a->email)) {
+            $senderarray[] = $mform->CreateElement('static', 'error', '',
+                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+        }
+
+        // Add group of sender radio buttons to form.
         $mform->setDefault('sender', $this->_customdata['fromdefault']);
+        $mform->addGroup($senderarray, 'senderar', get_string('fromemail', 'local_mailtest'), array('<br />'), false);
+        $mform->setType('sender', PARAM_EMAIL);
+        $mform->addRule('senderar', get_string('required'), 'required');
 
         // Recipient.
 
         $mform->addElement('text', 'recipient', get_string('toemail', 'local_mailtest'), 'maxlength="100" size="25" ');
         $mform->setType('recipient', PARAM_EMAIL);
         $mform->addRule('recipient', get_string('required'), 'required');
+
+        // Always show communications log - even on success.
+
+        $mform->addElement('checkbox', 'alwaysshowlog', '', get_string('alwaysshowlog', 'local_mailtest'));
+        $mform->setDefault('alwaysshowlog', ($CFG->debugdisplay && $CFG->debugsmtp));
 
         // Buttons.
 

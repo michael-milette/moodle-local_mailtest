@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die;
  *
  * @param      string  $email  plain text email address.
  * @param      string  $name   (optional) plain text real name.
- * @param      int     $id     The identifier
+ * @param      int     $id     (optional) user ID
  *
  * @return     object  user info.
  */

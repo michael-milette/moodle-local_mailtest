@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2016-02-03
+### Added
+- Option to always show SMTP connection log, even if there is no error.
+- Now detects whether Moodle should be always sending from no-reply address.
+- Now notifies you if an email address is invalid.
+- New option to send from primary admin user's email address.
+- Now displays Moodle informative debug messages from email_to_user(). 
+- Added more answers to FAQ section of documentation relating to cron and Moodle 3.2+.
+
 ## [1.0.1] - 2016-01-02
 ### Updated
 - Made source code comments clearer and phpdoc valid.

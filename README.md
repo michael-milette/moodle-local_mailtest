@@ -40,7 +40,7 @@ This plugin requires Moodle 2.5+ from http://moodle.org
 
 Changes
 -------
-The first public BETA version was released on 2015-11-01.
+The first public BETA version was released on 2015-11-01. This plugin is now considered STABLE.
 
 For more information on releases since then, see CHANGELOG.md.
 
@@ -163,17 +163,23 @@ SMTP server.
 
 **Question: How can I use this tool to send emails to other email addresses?**
 
-Answer: You can't at the moment. If you really must, temporarily apply the
-email address to one of the three "From" addresses:
+Answer: You can't at the moment. If you really must, you can temporarily test the email address of one of the following "From" addresses:
 
 * Your user account
-* No-reply
 * Support
+* No-reply
+* Primary admin
+
+**Question: My email used to work in Moodle previous to 3.2. After upgrading to Moodle 3.2 or later, why can't my site send emails?**
+
+Answer: As of Moodle 3.2, use of the no-reply email address is no longer optional in many cases. You will need to make sure it is now configured correctly. Some mail server may even only permit connections if this is actually a valid email address.
 
 **Question: Why do I see a message about cron not having run for at least 24 hours?**
 
-Answer: IMPORTANT - See https://docs.moodle.org/32/en/Cron . If a link is
-included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically.
+Answer: IMPORTANT - See https://docs.moodle.org/32/en/Cron . If a link is included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically. Clicking the link instead of configuring cron will just hide the notice for 24 hours after which it will return until you fix this issue.
 
-Although the notice will go away for 24 hours, it will return until you fix
-this issue.
+If for some reason you are unable to setup an automated cron job and don't see the link, you can enable the link and allow remote running of the cron job by going to Site administration >Security > Site Policies and unchecking **Cron execution via command line only**. For a little extra security, also set a **Cron password for remote access**.
+
+**Question: Why do I see some debugging code in the communications log even though debugging is turned off?**
+
+Answer: Moodle does some validation before sending an email and can display some useful information so we've enabled some minimal display of debugging information. Informative lines start with **email_to_user**. You can ignore the line number references that follow the information line.

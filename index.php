@@ -67,15 +67,19 @@ admin_externalpage_setup('local_'.$pluginname); // Sets the navbar & expands nav
 
 // Setup the form.
 
-if (!empty($CFG->emailonlyfromnoreplyaddress) && !empty($CFG->noreplyaddress)) {
+$CFG->noreplyaddress = empty($CFG->noreplyaddress) ? 'noreply@' . get_host_from_url($CFG->wwwroot) : $CFG->noreplyaddress;
+
+if (!empty($CFG->emailonlyfromnoreplyaddress) || $CFG->branch >= 32) { // Always send from no reply address.
     // Use primary administrator's name if support name has not been configured.
     $primaryadmin = get_admin();
     $CFG->supportname = empty($CFG->supportname) ? fullname($primaryadmin, true) : $CFG->supportname;
+    // Use noreply address.
     $fromemail = local_mailtest_generate_email_user($CFG->noreplyaddress, format_string($CFG->supportname));
-} else {
-    $fromemail = $USER;
+    $fromdefault = $CFG->noreplyaddress;
+} else { // Otherwise defaults to send from primary admin user.
+    $fromemail = get_admin();
+    $fromdefault = $fromemail->email;
 }
-$fromdefault = $fromemail->email;
 
 $form = new mailtest_form(null, array('fromdefault' => $fromdefault));
 if ($form->is_cancelled()) {
@@ -104,7 +108,12 @@ if (!$data) { // Display the form.
         $msg .= '<p>';
         $msg .= '<strong>' . get_string('warning') . '</strong> - ';
         if (empty($CFG->cronclionly)) {
-            $msg .= get_string('cronwarning', 'admin', '/admin/cron.php');
+            // Determine build link to run cron.
+            $cronurl = new moodle_url('/admin/cron.php');
+            if (!empty($CFG->cronremotepassword)) {
+                $cronurl = new moodle_url('/admin/cron.php', array('password' => $CFG->cronremotepassword));
+            }
+            $msg .= get_string('cronwarning', 'admin', $cronurl->out());
         } else {
             $msg .= get_string('cronwarningcli', 'admin');
         }
@@ -116,7 +125,7 @@ if (!$data) { // Display the form.
             $msg .= html_writer::link($link, $icon, array('class' => 'helplink', 'target' => '_blank', 'rel' => 'external'));
         }
         $msg .= '</p>';
-        local_mailtest_msgbox($msg, null, 3, 'alert alert-error alert-block fade in');
+        local_mailtest_msgbox($msg, null, 3, 'alert alert-danger alert-block fade in');
     }
 
     // Display the form. ============================================.
@@ -154,21 +163,28 @@ if (!$data) { // Display the form.
     $messagetext = html_to_text($messagehtml);
 
     // Manage Moodle SMTP debugging display.
+    $debuglevel = $CFG->debug;
     $debugdisplay = $CFG->debugdisplay;
     $debugsmtp = $CFG->debugsmtp;
+    $showlog = !empty($data->alwaysshowlog) || ($debugdisplay && $debugsmtp);
+    // Set debug level to a minimum of NORMAL: Show errors, warnings and notices.
+    if ($CFG->debug < 15) {
+        $CFG->debug = 15;
+    }
     $CFG->debugdisplay = true;
     $CFG->debugsmtp = true;
     ob_start();
     $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true);
     $smtplog = ob_get_contents();
     ob_end_clean();
+    $CFG->debug = $debuglevel;
     $CFG->debugdisplay = $debugdisplay;
     $CFG->debugsmtp = $debugsmtp;
 
     if ($success) { // Success.
 
-        if ($debugdisplay && $debugsmtp) {
-            // Display debugging info if settings were already on before the test.
+        if ($showlog) {
+            // Display debugging info if settings were already on before the test or user wants to force display.
             echo $smtplog;
         }
         if (empty($CFG->smtphosts)) {
