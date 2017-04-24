@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2016-05-02
+### Updated
+- Removed Limitations notice in the README.md file. This plugin is confirmed to work with PHP 7.1 (thanks davidpesce)
+
 ## [1.1.0] - 2016-02-03
 ### Added
 - Option to always show SMTP connection log, even if there is no error.

@@ -94,7 +94,7 @@ The development of this plugin was motivated through our own experience in Moodl
 
 Limitations
 -----------
-This plugin has yet to been tested with PHP 7.0 or later.
+There are no known limitations at this time.
 
 Future Releases
 ---------------
