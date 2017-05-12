@@ -44,13 +44,22 @@ The first public BETA version was released on 2015-11-01. This plugin is now con
 
 For more information on releases since then, see CHANGELOG.md.
 
+Download eMail Test for Moodle
+------------------------------
+
+The most recent STABLE release of eMail Test for Moodle is available from:
+https://moodle.org/plugins/local_mailtest
+
+The most development release can be found at:
+https://github.com/michael-milette/moodle-local_mailtest
+
 Installation and Update
 -----------------------
 Install the plugin, like any other plugin, to the following folder:
 
     /local/mailtest
 
-See http://docs.moodle.org/32/en/Installing_plugins for details on installing Moodle plugins.
+See http://docs.moodle.org/33/en/Installing_plugins for details on installing Moodle plugins.
 
 There are no special considerations required for updating the plugin.
 
@@ -176,7 +185,7 @@ Answer: As of Moodle 3.2, use of the no-reply email address is no longer optiona
 
 **Question: Why do I see a message about cron not having run for at least 24 hours?**
 
-Answer: IMPORTANT - See https://docs.moodle.org/32/en/Cron . If a link is included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically. Clicking the link instead of configuring cron will just hide the notice for 24 hours after which it will return until you fix this issue.
+Answer: IMPORTANT - See https://docs.moodle.org/33/en/Cron . If a link is included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically. Clicking the link instead of configuring cron will just hide the notice for 24 hours after which it will return until you fix this issue.
 
 If for some reason you are unable to setup an automated cron job and don't see the link, you can enable the link and allow remote running of the cron job by going to Site administration >Security > Site Policies and unchecking **Cron execution via command line only**. For a little extra security, also set a **Cron password for remote access**.
 

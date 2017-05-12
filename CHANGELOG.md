@@ -1,9 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.1.1] - 2016-05-02
+## [1.1.1] - 2016-05-12
 ### Updated
-- Removed Limitations notice in the README.md file. This plugin is confirmed to work with PHP 7.1 (thanks davidpesce)
+- Removed Limitations notice in the README.md file. This plugin is confirmed
+  to work with PHP 7.1 (thanks davidpesce)
+- Moodle eMailTest has been successfully tested for compatibility with
+  Moodle 2.5 to 3.3. No code changes were required.
 
 ## [1.1.0] - 2016-02-03
 ### Added
@@ -32,8 +35,8 @@ All notable changes to this project will be documented in this file.
 - Since there have been no issues reported, the plugin is now considered STABLE.
 - The link to eMail Test will now appear in the Email section of the Server tab
   in Moodle 3.2's new Site Adminstration page.
-- Moodle eMailTest has been successfully tested with for compatibility
-  with Moodle 2.5 to 3.2.
+- Moodle eMailTest has been successfully tested for compatibility with
+  Moodle 2.5 to 3.2.
 
 ## [0.3.0] - 2016-05-21
 ### Added
