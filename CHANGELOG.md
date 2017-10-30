@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2017-10-29
+### Added
+- CONTRIBUTE.md.
+### Updated
+- Reorganized README.md (New: logo, status badges, table of contents, contributing, etc).
+- Has been tested with Moodle 3.4.
+
 ## [1.1.1] - 2016-05-12
 ### Updated
 - Removed Limitations notice in the README.md file. This plugin is confirmed
@@ -14,7 +21,7 @@ All notable changes to this project will be documented in this file.
 - Now detects whether Moodle should be always sending from no-reply address.
 - Now notifies you if an email address is invalid.
 - New option to send from primary admin user's email address.
-- Now displays Moodle informative debug messages from email_to_user(). 
+- Now displays Moodle informative debug messages from email_to_user().
 - Added more answers to FAQ section of documentation relating to cron and Moodle 3.2+.
 
 ## [1.0.1] - 2016-01-02
