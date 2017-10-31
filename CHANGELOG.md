@@ -1,19 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.1.1] - 2017-10-29
+## [1.1.1] - 2016-05-12 and 2017-10-29
+No code changes.
 ### Added
 - CONTRIBUTE.md.
 ### Updated
+- Removed Limitations notice in the README.md file. This plugin is confirmed to work with PHP 7.1 (thanks davidpesce)
+- Moodle eMailTest has been successfully tested for compatibility with Moodle 2.5 to 3.4.
 - Reorganized README.md (New: logo, status badges, table of contents, contributing, etc).
-- Has been tested with Moodle 3.4.
-
-## [1.1.1] - 2016-05-12
-### Updated
-- Removed Limitations notice in the README.md file. This plugin is confirmed
-  to work with PHP 7.1 (thanks davidpesce)
-- Moodle eMailTest has been successfully tested for compatibility with
-  Moodle 2.5 to 3.3. No code changes were required.
 
 ## [1.1.0] - 2016-02-03
 ### Added
