@@ -15,24 +15,26 @@
 // along with eMailTest.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Adds eMail Test link to the Site Administration > Server menu. There are no settings for this plugin.
+ * Main form for eMailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2018 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2016-2018 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-if ($hassiteconfig) {
-    if ($CFG->branch >= 32) { // Moodle 3.2 and later.
-        $section = 'email';
-    } else { // Up to and including Moodle 3.1.x .
-        $section = 'server';
-    }
-    $ADMIN->add($section, new admin_externalpage('local_mailtest',
-            get_string('pluginname', 'local_mailtest'),
-            new moodle_url('/local/mailtest/')
-    ));
+/**
+ * Upgrade code for the eMailTest local plugin.
+ *
+ * @param int $oldversion
+ * @param object $block
+ */
+function xmldb_local_mailtest_upgrade($oldversion) {
+
+    // Moodle v3.0.0 release upgrade line.
+    // Upgrade steps below.
+
+    return true;
 }

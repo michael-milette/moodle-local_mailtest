@@ -3,7 +3,7 @@
 Local eMailTest plugin for Moodle
 =================================
 ![PHP](https://img.shields.io/badge/PHP-v5.6%20%2F%20v7.0%20%2F%20v7.1-blue.svg)
-![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v3.4-orange.svg)
+![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v3.5-orange.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/michael-milette/moodle-local_mailtest.svg)](https://github.com/michael-milette/moodle-local_mailtest/issues)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-green.svg)](#contributing)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](#license)
@@ -199,6 +199,10 @@ Moodle does some validation before sending an email and can display some useful 
 
 This plugin allows administrators to submit an email through a web form which is restricted to logged in Moodle administrators only.
 
+### I am not sure if the problem is with Moodle, my mail server or my firewall. What should I do?
+
+First, the problem is very unlikely to be Moodle. Moodle is used by organization in virtually every country of the world. If there was a problem, someone would have spoken up by now. That said, it could be your email settings. To find out if it is potentially your Moodle settings or firewall, or if it is you mail server, try setting Moodle up to use Gmail as your email server. If it works, it is very likely your email settings. If it doesn't, you might have a firewall blocking email traffic or your email server is incorrectly configured.
+
 ## Other questions
 
 Got a burning question that is not covered here? If you still can't find your answer, submit your question in the Moodle forums or open a new issue on Github at:
@@ -238,7 +242,7 @@ http://github.com/michael-milette/moodle-local_mailtest
 
 # License
 
-Copyright © 2015-2017 TNG Consulting Inc. - http://www.tngconsulting.ca/
+Copyright © 2015-2018 TNG Consulting Inc. - http://www.tngconsulting.ca/
 
 This file is part of MailTest/eMailTest for Moodle - http://moodle.org/
 

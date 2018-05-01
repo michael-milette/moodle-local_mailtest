@@ -18,7 +18,7 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015-2017 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2018 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

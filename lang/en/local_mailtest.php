@@ -18,7 +18,7 @@
  * Strings for component 'local_mailtest', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    local_mailtest
- * @copyright  2015-2017 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2018 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'eMail Test';
+$string['privacy:metadata'] = 'The eMail Test plugin does not store any personal data about any user.';
 $string['pluginname_help'] = 'eMail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
 $string['credit'] = 'Michael Milette - <a href="http://www.tngconsulting.ca/">TNG Consulting Inc.</a>';
 
