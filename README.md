@@ -59,7 +59,7 @@ Install the plugin, like any other plugin, to the following folder:
 
     /local/mailtest
 
-See http://docs.moodle.org/34/en/Installing_plugins for details on installing Moodle plugins.
+See http://docs.moodle.org/35/en/Installing_plugins for details on installing Moodle plugins.
 
 There are no special considerations required for updating the plugin.
 
@@ -172,9 +172,9 @@ typically in your server's PHP.INI file. If you do configure the SMTP
 settings in Moodle, it will attempt to deliver emails directly to the
 SMTP server.
 
-### How can I use this tool to send emails to other email addresses?
+### How can I use this tool to send emails from other email addresses?
 
-You can't at the moment. If you really must, you can temporarily test the email address of one of the following "From" addresses:
+You can't. This is to prevent the tool from being used to send spam. If you really must, you can temporarily test the email address of one of the following "From" addresses:
 
 * Your user account
 * Support
@@ -187,13 +187,17 @@ As of Moodle 3.2, use of the no-reply email address is no longer optional in man
 
 ### Why do I see a message about cron not having run for at least 24 hours?
 
-IMPORTANT - See https://docs.moodle.org/34/en/Cron . If a link is included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically. Clicking the link instead of configuring cron will just hide the notice for 24 hours after which it will return until you fix this issue.
+IMPORTANT - See https://docs.moodle.org/35/en/Cron . If a link is included within the message, clicking it will cause Moodle to try sending queued messages immediately. However, future message will still not be sent automatically. Clicking the link instead of configuring cron will just hide the notice for 24 hours after which it will return until you fix this issue.
 
 If for some reason you are unable to setup an automated cron job and don't see the link, you can enable the link and allow remote running of the cron job by going to Site administration >Security > Site Policies and unchecking **Cron execution via command line only**. For a little extra security, also set a **Cron password for remote access**.
 
 ### Why do I see some debugging code in the communications log even though debugging is turned off?
 
 Moodle does some validation before sending an email and can display some useful information so we've enabled some minimal display of debugging information. Informative lines start with **email_to_user**. You can ignore the line number references that follow the information line.
+
+### Regardless of which "from" email address I use, the test email always arrives from the same email address. Why?
+
+This is likely a setting in your mail server. To confirm which email address was used to send the email, look at the bottom of the status message after you try to send the email. If the test email was successfully delivered, you can also try to reply to the test message and take a look at the To email address. There is no need to actually send the reply. 
 
 ### Are there any security considerations?
 
