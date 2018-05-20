@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die;
  * Upgrade code for the eMailTest local plugin.
  *
  * @param int $oldversion
- * @param object $block
  */
 function xmldb_local_mailtest_upgrade($oldversion) {
 
