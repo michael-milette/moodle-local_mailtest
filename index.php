@@ -45,7 +45,7 @@ if (!is_siteadmin()) {
 // There are none.
 
 // Include form.
-require_once(dirname(__FILE__).'/class/'.$pluginname.'_form.php');
+require_once(dirname(__FILE__).'/classes/'.$pluginname.'_form.php');
 
 // Heading ==========================================================.
 
@@ -132,7 +132,9 @@ if (!$data) { // Display the form.
     $form->display();
 
 } else {      // Send test email.
-
+    if (!isset($data->sender)) {
+        $data->sender = $CFG->noreplyaddress;
+    }
     $fromemail = local_mailtest_generate_email_user($data->sender);
 
     if ($CFG->branch >= 26) {
@@ -174,7 +176,7 @@ if (!$data) { // Display the form.
     $CFG->debugdisplay = true;
     $CFG->debugsmtp = true;
     ob_start();
-    $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true);
+    $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
     $smtplog = ob_get_contents();
     ob_end_clean();
     $CFG->debug = $debuglevel;
@@ -192,6 +194,8 @@ if (!$data) { // Display the form.
         } else {
             $msg = get_string('sentmail', 'local_'.$pluginname);
         }
+        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : '. $toemail->email;
+
         local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);
 
     } else { // Failed to deliver message to the SMTP mail server.
@@ -209,6 +213,8 @@ if (!$data) { // Display the form.
         } else {
             $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=messagesettingemail');
         }
+        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : '. $toemail->email;
+
         local_mailtest_msgbox($msg, get_string('emailfail', 'error'), 2, 'errorbox', $url);
 
     }

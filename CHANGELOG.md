@@ -1,13 +1,37 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.1.1] - 2016-05-12 and 2017-10-29 and 2018-04-30
+## [1.2.1] - 2018-05-21
+### Added
+- Support for Privacy API.
+- More answers in FAQ section of README.md.
+- From and To addresses in status message.
+- Support for Reply-to address.
+### Updated
+- Fixed a PHP notice that rarely but occasionally occurred when reloading the results page without going through the form again.
+- Documentation.
+- phpDocs error.
+
+## [1.1.3] - 2018-04-30
+No code changes.
+### Updated
+- Moodle eMailTest has been successfully tested for compatibility with Moodle 2.5 to 3.5.
+- More answers in FAQ section of README.md.
+- Documentation.
+- Copyright for 2018.
+
+## [1.1.2] - 2017-10-29
+No code changes.
+### Updated
+- Moodle eMailTest has been successfully tested for compatibility with Moodle 2.5 to 3.3.
+
+## [1.1.1] - 2016-05-12
 No code changes.
 ### Added
 - CONTRIBUTE.md.
 ### Updated
 - Removed Limitations notice in the README.md file. This plugin is confirmed to work with PHP 7.1 (thanks davidpesce)
-- Moodle eMailTest has been successfully tested for compatibility with Moodle 2.5 to 3.5.
+- Moodle eMailTest has been successfully tested for compatibility with Moodle 2.5 to 3.3.
 - Reorganized README.md (New: logo, status badges, table of contents, contributing, etc).
 
 ## [1.1.0] - 2016-02-03
@@ -18,6 +42,7 @@ No code changes.
 - New option to send from primary admin user's email address.
 - Now displays Moodle informative debug messages from email_to_user().
 - Added more answers to FAQ section of documentation relating to cron and Moodle 3.2+.
+
 
 ## [1.0.1] - 2016-01-02
 ### Updated
