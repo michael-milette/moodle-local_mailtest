@@ -45,7 +45,7 @@ if (!is_siteadmin()) {
 // There are none.
 
 // Include form.
-require_once(dirname(__FILE__).'/class/'.$pluginname.'_form.php');
+require_once(dirname(__FILE__).'/classes/'.$pluginname.'_form.php');
 
 // Heading ==========================================================.
 

@@ -1,14 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2018-05-20
+## [1.2.1] - 2018-05-21
 ### Added
-- privacy:metadata string.
+- Support for Privacy API.
 - More answers in FAQ section of README.md.
 - From and To addresses in status message.
-- Support for Reply-to.
+- Support for Reply-to address.
 ### Updated
-- Fixed a PHP notice that rarely but did occur when reloading the results page without going through the form again.
+- Fixed a PHP notice that rarely but occasionally occurred when reloading the results page without going through the form again.
 - Documentation.
 - phpDocs error.
 
