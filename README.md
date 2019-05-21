@@ -2,8 +2,8 @@
 
 Local eMailTest plugin for Moodle
 =================================
-![PHP](https://img.shields.io/badge/PHP-v5.6%20%2F%20v7.0%20%2F%20v7.1-blue.svg)
-![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v3.5-orange.svg)
+![PHP](https://img.shields.io/badge/PHP-v5.6%20%2F%20v7.0%20%2F%20v7.1%20%2F%20v7.2-blue.svg)
+![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v3.7-orange.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/michael-milette/moodle-local_mailtest.svg)](https://github.com/michael-milette/moodle-local_mailtest/issues)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-green.svg)](#contributing)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](#license)
@@ -59,7 +59,7 @@ Install the plugin, like any other plugin, to the following folder:
 
     /local/mailtest
 
-See http://docs.moodle.org/35/en/Installing_plugins for details on installing Moodle plugins.
+See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins.
 
 There are no special considerations required for updating the plugin.
 
@@ -246,7 +246,7 @@ http://github.com/michael-milette/moodle-local_mailtest
 
 # License
 
-Copyright © 2015-2018 TNG Consulting Inc. - http://www.tngconsulting.ca/
+Copyright © 2015-2019 TNG Consulting Inc. - http://www.tngconsulting.ca/
 
 This file is part of MailTest/eMailTest for Moodle - http://moodle.org/
 
