@@ -130,9 +130,8 @@ class mailtest_form extends moodleform {
         $mform->addRule('recipient', get_string('required'), 'required');
 
         // Always show communications log - even on success.
-
         $mform->addElement('checkbox', 'alwaysshowlog', '', get_string('alwaysshowlog', 'local_mailtest'));
-        $mform->setDefault('alwaysshowlog', ($CFG->debugdisplay && $CFG->debugsmtp));
+        $mform->setDefault('alwaysshowlog', ($CFG->debugdisplay && isset($CFG->debugsmtp) && $CFG->debugsmtp));
 
         // Buttons.
 

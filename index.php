@@ -167,7 +167,7 @@ if (!$data) { // Display the form.
     // Manage Moodle SMTP debugging display.
     $debuglevel = $CFG->debug;
     $debugdisplay = $CFG->debugdisplay;
-    $debugsmtp = $CFG->debugsmtp;
+    $debugsmtp = isset($CFG->debugsmtp) && $CFG->debugsmtp;
     $showlog = !empty($data->alwaysshowlog) || ($debugdisplay && $debugsmtp);
     // Set debug level to a minimum of NORMAL: Show errors, warnings and notices.
     if ($CFG->debug < 15) {
@@ -184,7 +184,6 @@ if (!$data) { // Display the form.
     $CFG->debugsmtp = $debugsmtp;
 
     if ($success) { // Success.
-
         if ($showlog) {
             // Display debugging info if settings were already on before the test or user wants to force display.
             echo $smtplog;
