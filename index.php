@@ -18,7 +18,7 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015-2018 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2019 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -175,10 +175,15 @@ if (!$data) { // Display the form.
     }
     $CFG->debugdisplay = true;
     $CFG->debugsmtp = true;
-    ob_start();
-    $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
-    $smtplog = ob_get_contents();
-    ob_end_clean();
+    if (empty($CFG->smtphosts)) {
+        $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
+        $smtplog = get_string('nologavailable', 'local_'.$pluginname);
+    } else {
+        ob_start();
+        $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
+        $smtplog = ob_get_contents();
+        ob_end_clean();
+    }
     $CFG->debug = $debuglevel;
     $CFG->debugdisplay = $debugdisplay;
     $CFG->debugsmtp = $debugsmtp;

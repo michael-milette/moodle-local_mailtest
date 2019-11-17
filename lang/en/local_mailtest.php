@@ -18,7 +18,7 @@
  * Strings for component 'local_mailtest', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    local_mailtest
- * @copyright  2015-2018 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2019 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -47,6 +47,14 @@ $string['sentmailphp'] = 'The Moodle test message was successfully accepted by P
 $string['registered'] = 'Registered user ({$a}).';
 $string['notregistered'] = 'Not registered or not logged in.';
 $string['phpmethod'] = 'PHP default method';
+$string['nologavailable'] = '<p>Logging is not available when using PHP mail() function. However, may find logs on your server. Most common locations on Linux include:</p>
+<ul>
+<li>/var/log/maillog</li>
+<li>/var/log/mail.log</li>
+<li>/var/adm/maillog</li>
+<li>/var/adm/syslog/mail.log</li>
+</ul>
+<p>Alernatively, a custom location may be specified using the mail.log setting in php.ini.</p>';
 $string['smtpmethod'] = 'SMTP hosts: {$a}';
 $string['message'] = '<p>This is a test message. Please disregard.</p>
 <p>If you received this email, it means that you have successfully configured your Moodle site\'s email settings.</p>

@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2019-11-17
+### Added
+- If PHP mail() function method is used instead of SMTP, it is not possible to capture the dialogue between Moodle and an SMPT server. Information will now be displayed showing potential locations for a server log.
+- Documentation suggesting adding a port number to the SMTP server address.
+### Updated
+- Fixed compatibility with Moodle 3.8 due to $CFG->debugsmtp now being optional.
+- Copyright notice.
+
 ## [1.2.1] - 2018-05-21
 ### Added
 - Support for Privacy API.
@@ -43,7 +51,6 @@ No code changes.
 - Now displays Moodle informative debug messages from email_to_user().
 - Added more answers to FAQ section of documentation relating to cron and Moodle 3.2+.
 
-
 ## [1.0.1] - 2016-01-02
 ### Updated
 - Made source code comments clearer and phpdoc valid.
@@ -56,7 +63,6 @@ No code changes.
 - FAQ, in README.md, indicating what to do if you see the new cron notification.
 - Provides better recommendations depending on whether the SMTP server
   refused communications from Moodle or it refused delivery of the message.
-
 ### Changed
 - Changed the visible name of the plugin to eMail Test to help people find it.
 - Since there have been no issues reported, the plugin is now considered STABLE.
@@ -79,16 +85,11 @@ No code changes.
 ## [0.2.0] - 2015-11-05
 ### Added
 - Moodle MailTest is Now also compatible with Moodle 2.8, 2.9 and 3.0.
-
-### Changed
+- Added link to plugin's discussion forum in the plugin's Moodle.org Plugins directory.
+### Updated
 - Plugin's status changed from ALPHA to BETA.
-
-### Fixed
 - Corrected links from the plugin's page in the Moodle.org Plugins directory.
 - Corrected documentation and added formatting to make it easier to read on GitHub.
-
-### Added
-- Added link to plugin's discussion forum in the plugin's Moodle.org Plugins directory.
 
 ## [0.1.0] - 2015-11-02
 ### Added
