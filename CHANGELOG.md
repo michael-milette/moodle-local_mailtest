@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2020-09-20
+### Added
+- composer.lock
+### Updated
+- Fixed composer installation issues with mediamaisteri/moodle-installer. See https://github.com/juho-jaakkola/moodle-project
+
 ## [1.3.0] - 2019-11-17
 ### Added
 - If PHP mail() function method is used instead of SMTP, it is not possible to capture the dialogue between Moodle and an SMPT server. Information will now be displayed showing potential locations for a server log.

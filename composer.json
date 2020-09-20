@@ -1,10 +1,26 @@
 {
     "name": "michael-milette/moodle-local_mailtest",
     "type": "moodle-local",
+    "description": "eMailTest is a Moodle local plugin that can help diagnose SMTP email connectivity issues.",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Michael Milette - TNG Consulting Inc.",
+            "homepage": "https://www.tngconsulting.ca",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "composer/installers": "~1.0"
     },
     "extra": {
         "installer-name": "mailtest"
+    },
+    "support": {
+        "issues": "https://github.com/michael-milette/moodle-local_mailtest/issues",
+        "forum": "https://moodle.org/mod/forum/discuss.php?d=322747",
+        "source": "https://github.com/michael-milette/moodle-local_mailtest/",
+        "wiki": "https://github.com/michael-milette/moodle-local_mailtest/wiki",
+        "docs": "https://github.com/michael-milette/moodle-local_mailtest/blob/master/README.md"
     }
 }
