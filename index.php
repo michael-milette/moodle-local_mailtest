@@ -18,7 +18,7 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015-2019 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2020 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -96,28 +96,49 @@ if (!$data) { // Display the form.
     echo $OUTPUT->heading($heading);
 
     // Display a warning if Cron hasn't run in a while. =============.
-    if ($CFG->branch >= 27) { // Moodle 2.7+.
-        $sql = 'SELECT MAX(lastruntime) FROM {task_scheduled}';
-    } else {
-        $sql = 'SELECT MAX(lastcron) FROM {modules}';
-    }
-    $cronlastrun = $DB->get_field_sql($sql);
-    if ($cronlastrun <= time() - 3600 * 24) { // Cron is overdue.
-        $msg = '';
-        $msg .= '<button type="button" class="close" data-dismiss="alert">×</button>';
-        $msg .= '<p>';
-        $msg .= '<strong>' . get_string('warning') . '</strong> - ';
-        if (empty($CFG->cronclionly)) {
-            // Determine build link to run cron.
-            $cronurl = new moodle_url('/admin/cron.php');
-            if (!empty($CFG->cronremotepassword)) {
-                $cronurl = new moodle_url('/admin/cron.php', array('password' => $CFG->cronremotepassword));
-            }
-            $msg .= get_string('cronwarning', 'admin', $cronurl->out());
-        } else {
-            $msg .= get_string('cronwarningcli', 'admin');
+
+    $cronwarning = '';
+    if ($CFG->branch >= 37) {
+        defined('MINSECS') || define('MINSECS', 200); // For pre-Moodle 3.9 compatibility.
+        $lastcron = get_config('tool_task', 'lastcronstart');
+        $cronoverdue = ($lastcron < time() - 3600 * 24);
+        $check = $PAGE->get_renderer('core', 'admin');
+        if ($cronoverdue) {
+            $cronwarning .= $check->cron_overdue_warning($cronoverdue);
         }
-        $msg .= '</p>';
+
+        $lastcroninterval = get_config('tool_task', 'lastcroninterval');
+        $expectedfrequency = $CFG->expectedcronfrequency ?? MINSECS;
+        $croninfrequent = !$cronoverdue && ($lastcroninterval > ($expectedfrequency + MINSECS)
+                || $lastcron < time() - $expectedfrequency);
+        if ($croninfrequent) {
+            $cronwarning .= $check->cron_infrequent_warning($croninfrequent);
+        }
+    } else { // Up to and including Moodle 3.6.
+        if ($CFG->branch >= 27) { // Moodle 2.7+.
+            $sql = 'SELECT MAX(lastruntime) FROM {task_scheduled}';
+        } else {
+            $sql = 'SELECT MAX(lastcron) FROM {modules}';
+        }
+        $lastcron = $DB->get_field_sql($sql);
+        if ($cronoverdue) { // Cron is overdue.
+            if (empty($CFG->cronclionly)) {
+                // Determine build link to run cron.
+                $cronurl = new moodle_url('/admin/cron.php');
+                if (!empty($CFG->cronremotepassword)) {
+                    $cronurl = new moodle_url('/admin/cron.php', array('password' => $CFG->cronremotepassword));
+                }
+                $cronwarning .= get_string('cronwarning', 'admin', $cronurl->out());
+            } else {
+                $cronwarning .= get_string('cronwarningcli', 'admin');
+            }
+        }
+    }
+
+    if ($cronoverdue) { // Cron is overdue.
+        $msg = '';
+        $msg .= '<h3 class="alert-heading">' . get_string('warning') . '</h3>';
+        $msg .= $cronwarning;
         $msg .= '<p>' . get_string('cron_help', 'admin');
         if (!empty($CFG->branch)) {
             $icon = $OUTPUT->pix_icon('help', get_string('moreinfo'));
@@ -125,7 +146,9 @@ if (!$data) { // Display the form.
             $msg .= html_writer::link($link, $icon, array('class' => 'helplink', 'target' => '_blank', 'rel' => 'external'));
         }
         $msg .= '</p>';
-        local_mailtest_msgbox($msg, null, 3, 'alert alert-danger alert-block fade in');
+        $msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="' . get_string('closebuttontitle') .
+                '"><span aria-hidden="true">&times;</span></button>';
+        local_mailtest_msgbox($msg, null, 3, 'alert alert-danger alert-block alert-dismissible fade show');
     }
 
     // Display the form. ============================================.

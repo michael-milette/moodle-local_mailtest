@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - composer.lock
 ### Updated
+- Fixed display issue with Moodle 3.9.
+- Compatibility with PHP 5.6 to 7.3.
+- Copyright notice.
 - Fixed composer installation issues with mediamaisteri/moodle-installer. See https://github.com/juho-jaakkola/moodle-project
 
 ## [1.3.0] - 2019-11-17

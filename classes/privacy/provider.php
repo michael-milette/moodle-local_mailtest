@@ -18,7 +18,7 @@
  * Privacy Subsystem implementation for local_mailtest.
  *
  * @package    local_mailtest
- * @copyright  2015-2018 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2020 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
