@@ -170,7 +170,7 @@ if (!$data) { // Display the form.
     }
     $toemail = local_mailtest_generate_email_user($toemail, '');
 
-    $subject = format_string($SITE->fullname);
+    $subject = $SITE->fullname;
 
     // Add some system information.
     $a = new stdClass();
