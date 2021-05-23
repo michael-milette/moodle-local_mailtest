@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Compatibility with PHP 5.6 to 7.3.
 - Copyright notice.
 - Fixed composer installation issues with mediamaisteri/moodle-installer. See https://github.com/juho-jaakkola/moodle-project
+- Compatible with Moodle up to v3.11.
 
 ## [1.3.0] - 2019-11-17
 ### Added
