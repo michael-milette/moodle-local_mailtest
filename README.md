@@ -211,16 +211,14 @@ going to Site administration >Security > Site Policies and unchecking
 **Cron execution via command line only**. For a little extra security, also
 set a **Cron password for remote access**.
 
-### Why do I see some debugging code in the communications log even though
-debugging is turned off?
+### Why do I see some debugging code in the communications log even though debugging is turned off?
 
 Moodle does some validation before sending an email and can display some
 useful information so we've enabled some minimal display of debugging
 information. Informative lines start with **email_to_user**. You can ignore
 the line number references that follow the information line.
 
-### Regardless of which "from" email address I use, the test email always
-arrives from the same email address. Why?
+### Regardless of which "from" email address I use, the test email always arrives from the same email address. Why?
 
 This is likely a setting in your mail server. To confirm which email address
 was used to send the email, look at the bottom of the status message after you
@@ -228,8 +226,7 @@ try to send the email. If the test email was successfully delivered, you can
 also try to reply to the test message and take a look at the To email address.
 There is no need to actually send the reply.
 
-### I am not sure if the problem is with Moodle, my mail server or my
-firewall. What should I do?
+### I am not sure if the problem is with Moodle, my mail server or my firewall. What should I do?
 
 First, the problem is very unlikely to be Moodle. Moodle is used by
 organization in virtually every country of the world. If there was a problem,
