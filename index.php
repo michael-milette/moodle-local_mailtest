@@ -121,6 +121,7 @@ if (!$data) { // Display the form.
             $sql = 'SELECT MAX(lastcron) FROM {modules}';
         }
         $lastcron = $DB->get_field_sql($sql);
+        $cronoverdue = ($lastcron < time() - 3600 * 24);
         if ($cronoverdue) { // Cron is overdue.
             if (empty($CFG->cronclionly)) {
                 // Determine build link to run cron.
