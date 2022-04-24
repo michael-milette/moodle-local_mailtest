@@ -55,6 +55,7 @@ $string['nologavailable'] = '<p>Logging is not available when using PHP mail() f
 <li>/var/adm/syslog/mail.log</li>
 </ul>
 <p>Alernatively, a custom location may be specified using the mail.log setting in php.ini.</p>';
+$string['winsyslog'] = 'Event Log on Windows';
 $string['smtpmethod'] = 'SMTP hosts: {$a}';
 $string['message'] = '<p>This is a test message. Please disregard.</p>
 <p>If you received this email, it means that you have successfully configured your Moodle site\'s email settings.</p>

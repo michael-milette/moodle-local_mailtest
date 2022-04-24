@@ -202,6 +202,13 @@ if (!$data) { // Display the form.
     if (empty($CFG->smtphosts)) {
         $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
         $smtplog = get_string('nologavailable', 'local_'.$pluginname);
+        if (!empty($phplog = ini_get('mail.log'))) {
+            if ($phplog == 'syslog' && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                $smtplog .= '<pre>mail.log : ' . get_string('winsyslog', 'local_' . $pluginname) . '</pre>';
+            } else {
+                $smtplog .= '<pre>mail.log : ' . $phplog . '</pre>';
+            }
+        }
     } else {
         ob_start();
         $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
