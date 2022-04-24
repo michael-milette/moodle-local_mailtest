@@ -229,6 +229,10 @@ if (!$data) { // Display the form.
         } else {
             $msg = get_string('sentmail', 'local_'.$pluginname);
         }
+        if (email_should_be_diverted($toemail->email)) {
+            $toemail->email = $toemail->email . ' <strong>(' .
+                    get_string('divertedto', 'local_' . $pluginname, $CFG->divertallemailsto) . ')</strong>';
+        }
         $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : '. $toemail->email;
 
         local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);

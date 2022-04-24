@@ -129,6 +129,19 @@ class mailtest_form extends moodleform {
         $mform->setType('recipient', PARAM_EMAIL);
         $mform->addRule('recipient', get_string('required'), 'required');
 
+        // Divert all emails.
+
+        if ($CFG->branch >= 32) {
+            if (empty($CFG->divertallemailsto)) {
+                $divertstatus = get_string('functiondisabled');
+            } else {
+                $divertstatus = get_string('divertedto', 'local_mailtest', $CFG->divertallemailsto);
+            }
+            $divertstatus .= ' (<a href="../../admin/settings.php?section=outgoingmailconfig#admin-divertallemailsto">' .
+                    get_string('change', 'admin').'</a>)';
+            $mform->addElement('static', 'divertemails',  get_string('divertallemails', 'admin'), $divertstatus);
+        }
+
         // Always show communications log - even on success.
         $mform->addElement('checkbox', 'alwaysshowlog', '', get_string('alwaysshowlog', 'local_mailtest'));
         $mform->setDefault('alwaysshowlog', ($CFG->debugdisplay && isset($CFG->debugsmtp) && $CFG->debugsmtp));

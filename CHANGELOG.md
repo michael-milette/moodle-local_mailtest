@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.4.1] - 2022-04-23 (DEV)
 ### Added
-- Now detects and reports the log location if mail.log is set in php.ini.
+- Detects and reports the log location if mail.log is set in php.ini.
+- Detects if email diverting is enabled.
 
 ## [1.4.0] - 2020-09-20
 ### Added
