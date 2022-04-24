@@ -18,14 +18,12 @@
  * Privacy Subsystem implementation for local_mailtest.
  *
  * @package    local_mailtest
- * @copyright  2015-2021 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2022 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_mailtest\privacy;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy Subsystem for local_mailtest implementing null_provider.

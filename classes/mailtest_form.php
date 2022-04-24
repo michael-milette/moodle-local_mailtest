@@ -18,17 +18,17 @@
  * Main form for eMailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2019 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2022 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Form to prompt administrator for the recipient's email address.
- * @copyright  2015-2019 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2022 TNG Consulting Inc. - www.tngcosulting.ca
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mailtest_form extends moodleform {
@@ -42,7 +42,7 @@ class mailtest_form extends moodleform {
 
         // Header.
 
-        $mform->addElement('html', '<p>'.get_string('pluginname_help', 'local_mailtest').'</p>');
+        $mform->addElement('html', '<p>' . get_string('pluginname_help', 'local_mailtest') . '</p>');
 
         // Send method.
 
@@ -53,10 +53,10 @@ class mailtest_form extends moodleform {
         }
         if ($CFG->branch >= 32) {
             $sendmethod .= ' (<a href="../../admin/settings.php?section=outgoingmailconfig#admin-smtphosts">' .
-                    get_string('change', 'admin').'</a>)';
+                    get_string('change', 'admin') . '</a>)';
         } else {
             $sendmethod .= ' (<a href="../../admin/settings.php?section=messagesettingemail">' .
-                    get_string('change', 'admin').'</a>)';
+                    get_string('change', 'admin') . '</a>)';
         }
         $mform->addElement('static', 'sendmethod',  get_string('sendmethod', 'local_mailtest'), $sendmethod);
 
@@ -138,7 +138,7 @@ class mailtest_form extends moodleform {
                 $divertstatus = get_string('divertedto', 'local_mailtest', $CFG->divertallemailsto);
             }
             $divertstatus .= ' (<a href="../../admin/settings.php?section=outgoingmailconfig#admin-divertallemailsto">' .
-                    get_string('change', 'admin').'</a>)';
+                    get_string('change', 'admin') . '</a>)';
             $mform->addElement('static', 'divertemails',  get_string('divertallemails', 'admin'), $divertstatus);
         }
 

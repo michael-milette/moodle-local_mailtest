@@ -18,18 +18,18 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015-2021 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2022 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 // Include config.php.
-require_once(__DIR__.'/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once(__DIR__ . '/../../config.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 // Include our function library.
 $pluginname = 'mailtest';
-require_once($CFG->dirroot.'/local/'.$pluginname.'/locallib.php');
+require_once($CFG->dirroot.'/local/' . $pluginname . '/locallib.php');
 
 // Globals.
 global $CFG, $OUTPUT, $USER, $SITE, $PAGE;
@@ -45,13 +45,13 @@ if (!is_siteadmin()) {
 // There are none.
 
 // Include form.
-require_once(dirname(__FILE__).'/classes/'.$pluginname.'_form.php');
+require_once(dirname(__FILE__) . '/classes/' . $pluginname . '_form.php');
 
 // Heading ==========================================================.
 
-$title = get_string('pluginname', 'local_'.$pluginname);
-$heading = get_string('heading', 'local_'.$pluginname);
-$url = new moodle_url('/local/'.$pluginname.'/');
+$title = get_string('pluginname', 'local_' . $pluginname);
+$heading = get_string('heading', 'local_' . $pluginname);
+$url = new moodle_url('/local/' . $pluginname . '/');
 if ($CFG->branch >= 25) { // Moodle 2.5+.
     $context = context_system::instance();
 } else {
@@ -63,7 +63,7 @@ $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_title($title);
 $PAGE->set_heading($heading);
-admin_externalpage_setup('local_'.$pluginname); // Sets the navbar & expands navmenu.
+admin_externalpage_setup('local_' . $pluginname); // Sets the navbar & expands navmenu.
 
 // Setup the form.
 
@@ -176,16 +176,16 @@ if (!$data) { // Display the form.
     // Add some system information.
     $a = new stdClass();
     if (isloggedin()) {
-        $a->regstatus = get_string('registered', 'local_'.$pluginname, $USER->username);
+        $a->regstatus = get_string('registered', 'local_' . $pluginname, $USER->username);
     } else {
-        $a->regstatus = get_string('notregistered', 'local_'.$pluginname);
+        $a->regstatus = get_string('notregistered', 'local_' . $pluginname);
     }
     $a->lang = current_language();
     $a->browser = $_SERVER['HTTP_USER_AGENT'];
     $a->referer = $_SERVER['HTTP_REFERER'];
     $a->release = $CFG->release;
     $a->ip = local_mailtest_getuserip();
-    $messagehtml = get_string('message', 'local_'.$pluginname, $a);
+    $messagehtml = get_string('message', 'local_' . $pluginname, $a);
     $messagetext = html_to_text($messagehtml);
 
     // Manage Moodle SMTP debugging display.
@@ -201,7 +201,7 @@ if (!$data) { // Display the form.
     $CFG->debugsmtp = true;
     if (empty($CFG->smtphosts)) {
         $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
-        $smtplog = get_string('nologavailable', 'local_'.$pluginname);
+        $smtplog = get_string('nologavailable', 'local_' . $pluginname);
         if (!empty($phplog = ini_get('mail.log'))) {
             if ($phplog == 'syslog' && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 $smtplog .= '<pre>mail.log : ' . get_string('winsyslog', 'local_' . $pluginname) . '</pre>';
@@ -225,15 +225,15 @@ if (!$data) { // Display the form.
             echo $smtplog;
         }
         if (empty($CFG->smtphosts)) {
-            $msg = get_string('sentmailphp', 'local_'.$pluginname);
+            $msg = get_string('sentmailphp', 'local_' . $pluginname);
         } else {
-            $msg = get_string('sentmail', 'local_'.$pluginname);
+            $msg = get_string('sentmail', 'local_' . $pluginname);
         }
         if (email_should_be_diverted($toemail->email)) {
             $toemail->email = $toemail->email . ' <strong>(' .
                     get_string('divertedto', 'local_' . $pluginname, $CFG->divertallemailsto) . ')</strong>';
         }
-        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : '. $toemail->email;
+        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : ' . $toemail->email;
 
         local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);
 
@@ -248,11 +248,11 @@ if (!$data) { // Display the form.
         }
 
         if ($CFG->branch >= 32) {
-            $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=outgoingmailconfig');
+            $msg = get_string($errstring, 'local_' . $pluginname, '../../admin/settings.php?section=outgoingmailconfig');
         } else {
-            $msg = get_string($errstring, 'local_'.$pluginname, '../../admin/settings.php?section=messagesettingemail');
+            $msg = get_string($errstring, 'local_' . $pluginname, '../../admin/settings.php?section=messagesettingemail');
         }
-        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : '. $toemail->email;
+        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : ' . $toemail->email;
 
         local_mailtest_msgbox($msg, get_string('emailfail', 'error'), 2, 'errorbox', $url);
 

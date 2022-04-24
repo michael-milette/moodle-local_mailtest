@@ -1,11 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.4.2] - 2022-04-23 (DEV)
+## [2.0.0] - 2022-04-24
 ### Added
 - Detects and reports the log location if mail.log is set in php.ini.
 - Detects if email diverting is enabled.
 - Detects if email/messaging is disabled by way of $CFG->noemailever.
+### Updated
+- Removed db directory as there are no tables used by this plugin.
+- .gitignore
+- Compatible with PHP 5.6 to 7.4.
+- Compatible with Moodle up to v4.0.
+- Copyright notice for 2022.
 
 ## [1.4.0] - 2020-09-20
 ### Added

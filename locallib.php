@@ -18,12 +18,10 @@
  * Library of functions for MailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2021 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2022 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
 
 /**
  * Generate a user info object based on provided parameters.
@@ -71,12 +69,12 @@ function local_mailtest_generate_email_user($email, $name = '', $id = -99) {
  */
 function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = null, $link = null, $id = null) {
     global $OUTPUT;
-    echo $OUTPUT->box_start(trim('box '.$classes));
+    echo $OUTPUT->box_start(trim('box ' . $classes));
     if (!is_null($heading)) {
         echo $OUTPUT->heading($heading, $level, $id);
-        echo "<p>$text</p>".PHP_EOL;
+        echo "<p>$text</p>" . PHP_EOL;
     } else {
-        echo "<p id=\"$id\">$text</p>".PHP_EOL;
+        echo "<p id=\"$id\">$text</p>" . PHP_EOL;
     }
     if (!is_null($link)) {
         echo $OUTPUT->continue_button($link);
