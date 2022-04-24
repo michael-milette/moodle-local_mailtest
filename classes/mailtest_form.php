@@ -148,8 +148,15 @@ class mailtest_form extends moodleform {
 
         // Buttons.
 
+        if ($disabled = !empty($CFG->noemailever)) {
+            $mform->addElement('static', 'noemailever',
+                    html_writer::div(get_string('messagingdisable', 'error'), 'alert alert-danger'),
+                    html_writer::div(get_string('noemaileverset', 'message_airnotifier'), 'alert alert-danger'));
+        }
         $buttonarray = array();
-        $buttonarray[] = $mform->createElement('submit', 'send', get_string('sendtest', 'local_mailtest'));
+        if (!$disabled) {
+            $buttonarray[] = $mform->createElement('submit', 'send', get_string('sendtest', 'local_mailtest'));
+        }
         $buttonarray[] = $mform->createElement('cancel');
 
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);

@@ -1,10 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.4.1] - 2022-04-23 (DEV)
+## [1.4.2] - 2022-04-23 (DEV)
 ### Added
 - Detects and reports the log location if mail.log is set in php.ini.
 - Detects if email diverting is enabled.
+- Detects if email/messaging is disabled by way of $CFG->noemailever.
 
 ## [1.4.0] - 2020-09-20
 ### Added
