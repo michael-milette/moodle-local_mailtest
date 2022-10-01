@@ -57,6 +57,7 @@ $string['nologavailable'] = '<p>Logging is not available when using PHP mail() f
 <p>Alernatively, a custom location may be specified using the mail.log setting in php.ini.</p>';
 $string['winsyslog'] = 'Event Log on Windows';
 $string['divertedto'] = 'Diverted to {$a}';
+$string['divertallemails'] = 'Divert all emails';
 $string['noemailever'] = '<p>Email on this site has been disabled by way of <strong>$CFG-&gt;noemailever = true;</strong>.</p>';
 $string['smtpmethod'] = 'SMTP hosts: {$a}';
 $string['message'] = '<p>This is a test message. Please disregard.</p>
