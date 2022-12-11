@@ -2,8 +2,8 @@
 
 Local eMailTest plugin for Moodle
 =================================
-![PHP](https://img.shields.io/badge/PHP-v5.6%20%2F%20v7.0%20%2F%20v7.1%20%2F%20v7.2%20%2F%20v7.3%20%2F%20v7.4-blue.svg)
-![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v4.0-orange.svg)
+![PHP](https://img.shields.io/badge/PHP-v5.6%20%2F%20v7.0%20%2F%20v7.1%20%2F%20v7.2%20%2F%20v7.3%20%2F%20v7.4%20%2F%20v8.0-blue.svg)
+![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v4.1-orange.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/michael-milette/moodle-local_mailtest.svg)](https://github.com/michael-milette/moodle-local_mailtest/issues)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-green.svg)](#contributing)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](#license)
@@ -237,6 +237,12 @@ server. If it works, it is very likely your email settings. If it doesn't, you
 might have a firewall blocking email traffic or your email server is
 incorrectly configured.
 
+### How can I use Gmail to send SMTP emails from Moodle?
+
+Gmail requires that you create an [App Password](https://support.google.com/mail/answer/185833?hl=en) for Moodle.
+
+For more details as well as some of the limitations, see the Moodle documentation on [Email Setup Gmail](https://docs.moodle.org/en/Email_setup_gmail).-
+
 ### All the settings seem to be correct. What else can I try?
 
 Despite your best efforts, sometimes you will find that a :portNumber needs to
@@ -244,8 +250,7 @@ be added after the address of the SMTP server. Example: smtp.example.com:587
 
 ### Are there any security considerations?
 
-This plugin allows administrators to submit an email through a web form which
-is restricted to logged in Moodle administrators only.
+This plugin allows only Moodle Site Administrators to submit an email through a restricted web form only they can access.
 
 ## Other questions
 

@@ -19,7 +19,7 @@ integrated into the project.
 
 Style Guides
 -------------------
-1. Write in UTF-8 in PHP 5.6, 7.0, 7.1, 7.2, 7.3 and 7.4.
+1. Write in UTF-8 in PHP 5.6, 7.0, 7.1, 7.2, 7.3, 7.4 and 8.0.
 2. Follow the official[Moodle Coding Style Guide](https://docs.moodle.org/dev/Coding_style).
 3. Fully test your code with Moodle **Debug Messages** setting set to
 **DEVELOPER: extra Moodle debug messages for developers** and

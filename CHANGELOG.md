@@ -1,9 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [2.0.1] - 2022-10-01
+## [2.0.1] - 2022-12-11
+### Added
+- Added documentation for sending email via Gmail.
 ### Updated
 - Added missing string for Moodle 2.4 to 3.9.
+- Compatible with PHP 5.6 to 8.0.
+- Compatible with Moodle up to v4.1.
 
 ## [2.0.0] - 2022-04-24
 ### Added
