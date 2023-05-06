@@ -3,8 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.2] - 2022-05-06
 ### Updated
+- Fix-31: Corrected deprecated FILTER_SANITIZE_STRING deprecation notice in PHP 8.1.
 - Fix-30: Corrected undefined $CFG->branch error when installing at the same time as initial Moodle install.
 - Fix-20: Now correctly handles site names with special characters such as ampersands.
+- Compatible with PHP 5.6 to 8.1.
+- Compatible with Moodle up to v4.2.
 - Copyright notice for 2023.
 
 ## [2.0.1] - 2022-12-11
