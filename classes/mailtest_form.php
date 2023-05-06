@@ -18,7 +18,7 @@
  * Main form for eMailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2022 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Form to prompt administrator for the recipient's email address.
- * @copyright  2015-2022 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mailtest_form extends moodleform {

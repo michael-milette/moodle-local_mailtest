@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2022-05-06
+### Updated
+- Copyright notice for 2023.
+
 ## [2.0.1] - 2022-12-11
 ### Added
 - Added documentation for sending email via Gmail.
