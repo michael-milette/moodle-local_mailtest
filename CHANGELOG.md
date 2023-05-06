@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.2] - 2022-05-06
 ### Updated
+- Fix-20: Now correctly handles site names with special characters such as ampersands.
 - Copyright notice for 2023.
 
 ## [2.0.1] - 2022-12-11
