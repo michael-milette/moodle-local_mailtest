@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.2] - 2022-05-06
 ### Updated
+- Fix-30: Corrected undefined $CFG->branch error when installing at the same time as initial Moodle install.
 - Fix-20: Now correctly handles site names with special characters such as ampersands.
 - Copyright notice for 2023.
 
