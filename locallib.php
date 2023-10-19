@@ -1,5 +1,5 @@
 <?php
-// This file is part of MailTest for Moodle - http://moodle.org/
+// This file is part of MailTest for Moodle - https://moodle.org/
 //
 // MailTest is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
+// along with MailTest.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Library of functions for MailTest.
@@ -20,7 +20,7 @@
  * @package    local_mailtest
  * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
@@ -38,8 +38,8 @@ function local_mailtest_generate_email_user($email, $name = '', $id = -99) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailuser->email = '';
     }
-    $name = format_text($name, FORMAT_HTML, array('trusted' => false, 'noclean' => false));
-    $emailuser->firstname = trim(htmlspecialchars($name));
+    $name = format_text($name, FORMAT_HTML, ['trusted' => false, 'noclean' => false]);
+    $emailuser->firstname = trim(htmlspecialchars($name, ENT_COMPAT));
     $emailuser->lastname = '';
     $emailuser->maildisplay = true;
     $emailuser->mailformat = 1; // 0 (zero) text-only emails, 1 (one) for HTML emails.
@@ -72,9 +72,9 @@ function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = nu
     echo $OUTPUT->box_start(trim('box ' . $classes));
     if (!is_null($heading)) {
         echo $OUTPUT->heading($heading, $level, $id);
-        echo "<p>$text</p>" . PHP_EOL;
+        echo "<div>$text</div>" . PHP_EOL;
     } else {
-        echo "<p id=\"$id\">$text</p>" . PHP_EOL;
+        echo "<div id=\"$id\">$text</div>" . PHP_EOL;
     }
     if (!is_null($link)) {
         echo $OUTPUT->continue_button($link);
@@ -88,14 +88,22 @@ function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = nu
  * @return     string  Public IP address or the private IP address if the public address cannot be identified.
  */
 function local_mailtest_getuserip() {
-    $fieldlist = array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED',
-            'REMOTE_ADDR', 'HTTP_CF_CONNECTING_IP', 'HTTP_X_CLUSTER_CLIENT_IP');
+    $fieldlist = [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'REMOTE_ADDR',
+        'HTTP_CF_CONNECTING_IP',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+    ];
 
     // Public range first.
-    $filterlist = array(
+    $filterlist = [
         FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
-        FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-    );
+        FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+    ];
 
     foreach ($filterlist as $filter) {
         foreach ($fieldlist as $field) {

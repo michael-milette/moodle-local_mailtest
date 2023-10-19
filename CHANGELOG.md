@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2023-10-20
+### Added
+- New diagnostic feature provides issue-specific information and some common solutions.
+- New detection of SMTP credential issue.
+- New detection of SMTP server connection failure/timeout.
+- New detection of SMTP server rejection.
+- New detection of connection timeout issues.
+- New detection of DNS resolution failure.
+- New detection of missing port or SSL/TLS protocol/port mismatch.
+- New detection of closed port.
+- New in-app information to help you troubleshoot if you don't receive the test email.
+### Updated
+- Documentation. Links to http:// have been replaced with https://.
+- Compatible with Moodle up to v4.3.
+
 ## [2.0.2] - 2022-05-06
 ### Updated
 - Fix-31: Corrected deprecated FILTER_SANITIZE_STRING deprecation notice in PHP 8.1.

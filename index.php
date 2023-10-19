@@ -1,5 +1,5 @@
 <?php
-// This file is part of MailTest for Moodle - http://moodle.org/
+// This file is part of MailTest for Moodle - https://moodle.org/
 //
 // MailTest is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MailTest.  If not, see <http://www.gnu.org/licenses/>.
+// along with MailTest.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Displays the form and processes the form submission.
@@ -20,7 +20,7 @@
  * @package    local_mailtest
  * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 // Include config.php.
@@ -29,7 +29,7 @@ require_once($CFG->libdir . '/adminlib.php');
 
 // Include our function library.
 $pluginname = 'mailtest';
-require_once($CFG->dirroot.'/local/' . $pluginname . '/locallib.php');
+require_once($CFG->dirroot . '/local/' . $pluginname . '/locallib.php');
 
 // Globals.
 global $CFG, $OUTPUT, $USER, $SITE, $PAGE;
@@ -81,7 +81,7 @@ if (!empty($CFG->emailonlyfromnoreplyaddress) || $CFG->branch >= 32) { // Always
     $fromdefault = $fromemail->email;
 }
 
-$form = new mailtest_form(null, array('fromdefault' => $fromdefault));
+$form = new mailtest_form(null, ['fromdefault' => $fromdefault]);
 if ($form->is_cancelled()) {
     redirect($homeurl);
 }
@@ -92,7 +92,6 @@ echo $OUTPUT->header();
 
 $data = $form->get_data();
 if (!$data) { // Display the form.
-
     echo $OUTPUT->heading($heading);
 
     // Display a warning if Cron hasn't run in a while. =============.
@@ -127,7 +126,7 @@ if (!$data) { // Display the form.
                 // Determine build link to run cron.
                 $cronurl = new moodle_url('/admin/cron.php');
                 if (!empty($CFG->cronremotepassword)) {
-                    $cronurl = new moodle_url('/admin/cron.php', array('password' => $CFG->cronremotepassword));
+                    $cronurl = new moodle_url('/admin/cron.php', ['password' => $CFG->cronremotepassword]);
                 }
                 $cronwarning .= get_string('cronwarning', 'admin', $cronurl->out());
             } else {
@@ -144,7 +143,7 @@ if (!$data) { // Display the form.
         if (!empty($CFG->branch)) {
             $icon = $OUTPUT->pix_icon('help', get_string('moreinfo'));
             $link = $CFG->docroot . '/' . $CFG->branch . '/' . substr(current_language(), 0, 2) . '/Cron';
-            $msg .= html_writer::link($link, $icon, array('class' => 'helplink', 'target' => '_blank', 'rel' => 'external'));
+            $msg .= html_writer::link($link, $icon, ['class' => 'helplink', 'target' => '_blank', 'rel' => 'external']);
         }
         $msg .= '</p>';
         $msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="' . get_string('closebuttontitle') .
@@ -154,7 +153,6 @@ if (!$data) { // Display the form.
 
     // Display the form. ============================================.
     $form->display();
-
 } else {      // Send test email.
     if (!isset($data->sender)) {
         $data->sender = $CFG->noreplyaddress;
@@ -167,9 +165,13 @@ if (!$data) { // Display the form.
         $toemail = textlib::strtolower($data->recipient);
     }
     if ($toemail !== clean_param($toemail, PARAM_EMAIL)) {
-        local_mailtest_msgbox(get_string('invalidemail'), get_string('error'), 2, 'errorbox', $url);
+        local_mailtest_msgbox(get_string('invalidemail'), get_string('error'), 2, 'errorbox', $url->out());
     }
     $toemail = local_mailtest_generate_email_user($toemail, '');
+    if (email_should_be_diverted($toemail->email)) {
+        $toemail->email = $toemail->email . ' <strong>(' .
+                get_string('divertedto', 'local_' . $pluginname, $CFG->divertallemailsto) . ')</strong>';
+    }
 
     $subject = format_string($SITE->fullname, true, ['escape' => false]);
 
@@ -187,6 +189,16 @@ if (!$data) { // Display the form.
     $a->ip = local_mailtest_getuserip();
     $messagehtml = get_string('message', 'local_' . $pluginname, $a);
     $messagetext = html_to_text($messagehtml);
+
+    ob_end_flush();
+    ob_implicit_flush(true);
+    echo '<h2 class="alert-heading">' . get_string('testing', 'local_' . $pluginname) . '</h2>';
+    echo '<p>' . get_string('from') . ' : ' . $fromemail->email . '<br>
+        &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095;<br>
+        ' . get_string('server', 'local_' . $pluginname, (empty($CFG->smtphosts) ? 'PHPMailer' : $CFG->smtphosts)) . '<br>
+        &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095;<br>
+        ' . get_string('to') . ' : ' . $toemail->email . '</p>';
+    ob_implicit_flush(false);
 
     // Manage Moodle SMTP debugging display.
     $debuglevel = $CFG->debug;
@@ -214,48 +226,152 @@ if (!$data) { // Display the form.
         $success = email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
         $smtplog = ob_get_contents();
         ob_end_clean();
+        $smtplog = '<figure class="border border-dark p-2">' . $smtplog . '</figure>';
     }
+
     $CFG->debug = $debuglevel;
     $CFG->debugdisplay = $debugdisplay;
     $CFG->debugsmtp = $debugsmtp;
 
     if ($success) { // Success.
+        $title = get_string('success');
+        $msg = '<p>';
+        if (empty($CFG->smtphosts)) {
+            $msg .= get_string('sentmailphp', 'local_' . $pluginname);
+        } else {
+            $msg .= get_string('sentmail', 'local_' . $pluginname);
+        }
+
+        // Display a list of common reasons the email may not have been delivered.
+        if (empty($CFG->smtphosts)) {
+            $extrainfo = '<li>' . get_string('failphpmailerconfig', 'local_' . $pluginname) . '</li>';
+        } else {
+            $extrainfo = '';
+        }
+        $msg .= ' ' . get_string('commondeliveryissues', 'local_' . $pluginname, $extrainfo);
+
+        local_mailtest_msgbox($msg, $title, 2, 'infobox', $url->out());
         if ($showlog) {
             // Display debugging info if settings were already on before the test or user wants to force display.
             echo $smtplog;
         }
-        if (empty($CFG->smtphosts)) {
-            $msg = get_string('sentmailphp', 'local_' . $pluginname);
-        } else {
-            $msg = get_string('sentmail', 'local_' . $pluginname);
+    } else if (!empty($CFG->smtphosts)) {
+        // Failed to deliver message using SMTP.
+
+        // Diagnose failed SMTP connection issues.
+
+        if (strpos($smtplog, '220') === false) {
+            $errtype = 'errorcommunications';
+            $issues = '';
+
+            // No or very limited communication between Moodle and the SMTP server.
+            if (strpos($smtplog, '250') === false) {
+                $issues .= get_string('failaccessdenied', 'local_' . $pluginname);
+            }
+
+            // Check for domain, security protocol and port issues for each specified mail server.
+            $hosts = explode(';', $CFG->smtphosts);
+            foreach ($hosts as $host) {
+                if (empty($host)) {
+                    continue; // Skip if blank.
+                }
+
+                // Split the host and the port.
+                $host = explode(':', $host . ':25'); // Set default port to 25 in case none was specified.
+                [$host, $port] = $host;
+                $port = (int)$port;
+
+                // Check for DNS record lookup failure. Skip if host is an IP address.
+                if (
+                    filter_var($host, FILTER_VALIDATE_IP) === false // Not an IP address.
+                    && empty(@dns_get_record($host)) // The address does not have a DNS record.
+                    && gethostbyname($host) == $host
+                ) { // Address does not resolve to an IP address (e.g. localhost).
+                        $issues .= '<li>' . get_string('faildnslookup', 'local_' . $pluginname, $host) . '</li>';
+                        break;
+                }
+
+                // If using SSL or TLS, port is not usually 25.
+                if ($port == 25 && !empty($CFG->smtpsecure)) {
+                    // No port or port 25 was specified for a SSL/TLS connection.
+                    $issues .= '<li>' . get_string('failmissingport', 'local_' . $pluginname, $CFG->smtpsecure) . '</li>';
+                }
+
+                // Port is not 25 but a secure protocol was not specified.
+                if ($port != 25 && empty($CFG->smtpsecure)) {
+                    // Non default port specified for a non SSL/TLS connection.
+                    $issues .= '<li>';
+                    $issues .= get_string('failmissingprotocol', 'local_' . $pluginname, $port);
+                    $issues .= '</li>';
+                }
+
+                // The port and protocol don't match. Although it can, the SSL port is rarely 587, and TLS is rarely 465.
+                if ($port == 587 && $CFG->smtpsecure == 'ssl' || $port == 465 && $CFG->smtpsecure == 'tls') {
+                    $issues .= '<li>' . get_string(
+                        'failprotocolmismatch',
+                        'local_' . $pluginname,
+                        ['port' => $port, 'protocol' => $CFG->smtpsecure]
+                    ) . '</li>';
+                }
+
+                // Connection timeout issues.
+                $fp = @fsockopen($host, $port, $errno, $errstr, 10);
+                if (!$fp) {
+                    if (stripos($errstr, 'Connection timed out') !== false) {
+                        // Connection timed out due to possible issues such as ISP blocking outbound SMTP connections.
+                        $issues .= '<li>' . get_string('failoutboundsmtpblocked', 'local_' . $pluginname) . '</li>';
+                    } else {
+                        // Server's port was closed.
+                        $issues .= '<li>' . get_string('failclosedport', 'local_' . $pluginname, $port) . '</li>';
+                    }
+                    // Add a list common issues.
+                    $issues .= get_string('commoncommissues', 'local_' . $pluginname);
+                    break;
+                } else {
+                    fclose($fp);
+                }
+            }
         }
-        if (email_should_be_diverted($toemail->email)) {
-            $toemail->email = $toemail->email . ' <strong>(' .
-                    get_string('divertedto', 'local_' . $pluginname, $CFG->divertallemailsto) . ')</strong>';
-        }
-        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : ' . $toemail->email;
 
-        local_mailtest_msgbox($msg, get_string('success'), 2, 'infobox', $url);
+        // Diagnose possible authentication issues.
 
-    } else { // Failed to deliver message to the SMTP mail server.
+        // SMTP mail server refused the email.
+        $smtplog = '<h4>' . get_string('connectionlog', 'local_' . $pluginname) . '</h4>' . $smtplog;
+        $issues = '';
 
-        if (trim($smtplog) == false) { // No communication between Moodle and the SMTP server.
-            $errstring = 'errorcommunications';
-        } else { // SMTP mail server refused the email.
-            $errstring = 'errorsend';
-            // Display the results of the dialogue between Moodle and the SMTP server.
-            echo $smtplog;
+        // Invalid credentials - username and/or password are incorrect.
+        if (strpos($smtplog, '530') !== false || strpos($smtplog, '535') !== false || strpos($smtplog, '235') === false) {
+            $errtype = 'errorsend';
+            $issues .= get_string('failcredentials', 'local_' . $pluginname);
         }
 
-        if ($CFG->branch >= 32) {
-            $msg = get_string($errstring, 'local_' . $pluginname, '../../admin/settings.php?section=outgoingmailconfig');
-        } else {
-            $msg = get_string($errstring, 'local_' . $pluginname, '../../admin/settings.php?section=messagesettingemail');
+        // No-reply address is probably fake or contains a typo. Your mail server requires a real email address with a real mailbox.
+        if (strpos($smtplog, '550') !== false) {
+            $errtype = 'errorsend';
+            $issues .= get_string('failunknownmailbox', 'local_' . $pluginname);
         }
-        $msg .= '<br><br>' . get_string('from') . ' : ' . $fromemail->email . '<br>' . get_string('to') . ' : ' . $toemail->email;
 
-        local_mailtest_msgbox($msg, get_string('emailfail', 'error'), 2, 'errorbox', $url);
+        // If we have not figured it out yet, the admin will need to diagnose manually using the smtplog.
+        if (empty($errtype)) {
+            $errtype = 'errorunknown';
+        }
 
+        $continuelink = ($CFG->branch >= 32) ? 'outgoingmailconfig' : 'messagesettingemail';
+        $msg = get_string($errtype, 'local_' . $pluginname, '../../admin/settings.php?section=' . $continuelink);
+
+        // Display diagnostic information, if available.
+        if (empty($issues)) {
+            $title = get_string('additionalinfo', 'local_' . $pluginname);
+            $msg .= '<p>' . $title . '</p><ul>' . $issues . '</ul>' . $smtplog;
+        }
+
+        // Also display the results of the dialogue between Moodle and the SMTP server.
+        local_mailtest_msgbox($msg, get_string('emailfail', 'local_' . $pluginname), 3, 'errorbox', $url->out());
+    } else {
+        // Failed to send message using PHPMailer.
+        $title = get_string('emailfail', 'local_' . $pluginname);
+        $msg = get_string('failphpmailer', 'local_' . $pluginname);
+        echo local_mailtest_msgbox($msg, $title, 3, 'errorbox', $url->out());
     }
 }
 

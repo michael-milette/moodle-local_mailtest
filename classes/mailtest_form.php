@@ -1,5 +1,5 @@
 <?php
-// This file is part of eMailTest plugin for Moodle - http://moodle.org/
+// This file is part of eMailTest plugin for Moodle - https://moodle.org/
 //
 // eMailTest is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eMailTest.  If not, see <http://www.gnu.org/licenses/>.
+// along with eMailTest.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Main form for eMailTest.
@@ -20,7 +20,7 @@
  * @package    local_mailtest
  * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
@@ -29,7 +29,7 @@ require_once($CFG->libdir . '/formslib.php');
 /**
  * Form to prompt administrator for the recipient's email address.
  * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mailtest_form extends moodleform {
 
@@ -62,7 +62,7 @@ class mailtest_form extends moodleform {
 
         // Sender.
 
-        $senderarray = array();
+        $senderarray = [];
         $a = new stdClass();
         $a->label = get_string('change', 'admin');
 
@@ -119,7 +119,7 @@ class mailtest_form extends moodleform {
 
         // Add group of sender radio buttons to form.
         $mform->setDefault('sender', $this->_customdata['fromdefault']);
-        $mform->addGroup($senderarray, 'senderar', get_string('fromemail', 'local_mailtest'), array('<br />'), false);
+        $mform->addGroup($senderarray, 'senderar', get_string('fromemail', 'local_mailtest'), ['<br />'], false);
         $mform->setType('sender', PARAM_EMAIL);
         $mform->addRule('senderar', get_string('required'), 'required');
 
@@ -154,13 +154,13 @@ class mailtest_form extends moodleform {
                     html_writer::div(get_string('messagingdisable', 'error'), 'alert alert-danger'),
                     html_writer::div(get_string('noemaileverset', 'message_airnotifier'), 'alert alert-danger'));
         }
-        $buttonarray = array();
+        $buttonarray = [];
         if (!$disabled) {
             $buttonarray[] = $mform->createElement('submit', 'send', get_string('sendtest', 'local_mailtest'));
         }
         $buttonarray[] = $mform->createElement('cancel');
 
-        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
         $mform->closeHeaderBefore('buttonar');
     }
 

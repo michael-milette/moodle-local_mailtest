@@ -49,4 +49,4 @@ rules.
 
 Versioning
 ---------------------
-We use [SemVer](http://semver.org/) for versioning.
+We use [SemVer](https://semver.org/) for versioning.

@@ -1,5 +1,5 @@
 <?php
-// This file is part of eMailTest plugin for Moodle - http://moodle.org/
+// This file is part of eMailTest plugin for Moodle - https://moodle.org/
 //
 // eMailTest is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eMailTest.  If not, see <http://www.gnu.org/licenses/>.
+// along with eMailTest.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Privacy Subsystem implementation for local_mailtest.
@@ -20,7 +20,7 @@
  * @package    local_mailtest
  * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_mailtest\privacy;
@@ -29,7 +29,7 @@ namespace local_mailtest\privacy;
  * Privacy Subsystem for local_mailtest implementing null_provider.
  *
  * @copyright  2018 TNG Consulting Inc. <www.tngconsulting.ca>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
 
