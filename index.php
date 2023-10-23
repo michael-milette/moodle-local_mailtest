@@ -257,17 +257,13 @@ if (!$data) { // Display the form.
         }
     } else if (!empty($CFG->smtphosts)) {
         // Failed to deliver message using SMTP.
+        $errtype = 'errorunknown';
 
         // Diagnose failed SMTP connection issues.
 
-        if (strpos($smtplog, '220') === false) {
+        $issues = '';
+        if (strpos($smtplog, '220') === false) { // Missing 220 code, connection failed.
             $errtype = 'errorcommunications';
-            $issues = '';
-
-            // No or very limited communication between Moodle and the SMTP server.
-            if (strpos($smtplog, '250') === false) {
-                $issues .= get_string('failaccessdenied', 'local_' . $pluginname);
-            }
 
             // Check for domain, security protocol and port issues for each specified mail server.
             $hosts = explode(';', $CFG->smtphosts);
@@ -331,36 +327,33 @@ if (!$data) { // Display the form.
                     fclose($fp);
                 }
             }
+        } else if (strpos($smtplog, '250') === false) { // No 250 code.
+            // No or very limited communication between Moodle and the SMTP server.
+            $errtype = 'errorcommunications';
+            $issues .= get_string('failaccessdenied', 'local_' . $pluginname);
+        } else {
+            // SMTP mail server refused the email.
+            $errtype = 'errorsend';
+
+            // Diagnose possible authentication issues.
+
+            // Invalid credentials - username and/or password are incorrect.
+            if (strpos($smtplog, '530') !== false || strpos($smtplog, '535') !== false || strpos($smtplog, '235') === false) {
+                $issues .= get_string('failcredentials', 'local_' . $pluginname);
+            }
+
+            // No-reply address is probably fake or contains a typo. Your mail server requires a real email address with a real mailbox.
+            if (strpos($smtplog, '550') !== false) {
+                $issues .= get_string('failunknownmailbox', 'local_' . $pluginname);
+            }
         }
-
-        // Diagnose possible authentication issues.
-
-        // SMTP mail server refused the email.
         $smtplog = '<h4>' . get_string('connectionlog', 'local_' . $pluginname) . '</h4>' . $smtplog;
-        $issues = '';
-
-        // Invalid credentials - username and/or password are incorrect.
-        if (strpos($smtplog, '530') !== false || strpos($smtplog, '535') !== false || strpos($smtplog, '235') === false) {
-            $errtype = 'errorsend';
-            $issues .= get_string('failcredentials', 'local_' . $pluginname);
-        }
-
-        // No-reply address is probably fake or contains a typo. Your mail server requires a real email address with a real mailbox.
-        if (strpos($smtplog, '550') !== false) {
-            $errtype = 'errorsend';
-            $issues .= get_string('failunknownmailbox', 'local_' . $pluginname);
-        }
-
-        // If we have not figured it out yet, the admin will need to diagnose manually using the smtplog.
-        if (empty($errtype)) {
-            $errtype = 'errorunknown';
-        }
 
         $continuelink = ($CFG->branch >= 32) ? 'outgoingmailconfig' : 'messagesettingemail';
         $msg = get_string($errtype, 'local_' . $pluginname, '../../admin/settings.php?section=' . $continuelink);
 
         // Display diagnostic information, if available.
-        if (empty($issues)) {
+        if (!empty($issues)) {
             $title = get_string('additionalinfo', 'local_' . $pluginname);
             $msg .= '<p>' . $title . '</p><ul>' . $issues . '</ul>' . $smtplog;
         }

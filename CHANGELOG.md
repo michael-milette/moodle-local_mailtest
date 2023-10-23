@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2023-10-23
+### Updated
+- Now only run the tests that make sense in order to reduce unlikely recommendations.
+- Now displays missing recommendations.
+- Tested compatible with PHP 5.6 to 8.2.
+
 ## [3.0.0] - 2023-10-20
 ### Added
 - New diagnostic feature provides issue-specific information and some common solutions.
