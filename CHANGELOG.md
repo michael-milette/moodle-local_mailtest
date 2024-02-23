@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Now tests Moodle and domain for DKIM configuration.
 - Now tests domain for DMARC configuration.
 - Now tests domain for BIMI configuration.
+- Updated copyright for 2024.
 
 ## [3.0.1] - 2023-10-23
 ### Updated
