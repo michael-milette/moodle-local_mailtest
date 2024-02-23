@@ -18,7 +18,7 @@
  * Strings for component 'local_mailtest', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    local_mailtest
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -54,6 +54,35 @@ $string['registered'] = 'Registered user ({$a}).';
 $string['notregistered'] = 'Not registered or not logged in.';
 $string['phpmethod'] = 'PHP default method';
 $string['connectionlog'] = 'Communications log with mail server';
+
+$string['iconlabel'] = 'Security check for {$a}';
+$string['checkingdomain'] = 'DNS security check for {$a}:';
+$string['spfrecordfound'] = 'SPF record found.';
+$string['spfnorecordfound'] = 'SPF record is missing.';
+$string['spfvalidrecord'] = 'SPF record format is valid.';
+$string['spfinvalidrecord'] = 'SPF record must contains at least one mechanism.';
+$string['dkimrecordfound'] = 'DKIM record found.';
+$string['dkimnorecordfound'] = 'DKIM record is missing.';
+$string['dkimvalidrecord'] = 'DKIM record format is valid.';
+$string['dkiminvalidrecord'] = 'DKIM record must contains valid v, k and p tags.';
+$string['dkimselectorconfigured'] = 'DKIM selector setting is configured.';
+$string['dkimmissingselector'] = 'DKIM selector setting has not been configured.';
+$string['dkimspffailed'] = 'DMARC requires that SPF or DKIM records be configured.';
+$string['dmarcrecordfound'] = 'DMARC record found.';
+$string['dmarcnorecordfound'] = 'DMARC record is missing.';
+$string['dmarctagsfound'] = 'DMARC required tags found.';
+$string['dmarctagsnotfound'] = 'DMARC record must contain valid v and p tags.';
+$string['dmarcruainvalid'] = 'DMARC rua value is not formatted correctly.';
+$string['dmarcrufinvalid'] = 'DMARC ruf value is not formatted correctly.';
+$string['dmarcpctinvalid'] = 'DMARC pct value is not within range.';
+$string['bimipctinvalid'] = 'DMARC PCT value must be set to 100 for BIMI.';
+$string['biminorecordfound'] = 'PCT must be set to 100 for BIMI.';
+$string['bimirecordfound'] = 'BIMI record found.';
+$string['biminorecordfound'] = 'BIMI record is missing.';
+$string['bimiinvalidlogo'] = 'Missing BIMI logo: {$a}.';
+$string['bimitagsfound'] = 'BIMI tags valid.';
+$string['bimidmarcfailure'] = 'BIMI failure due to one or more DMARC dependency failures.';
+$string['recordfoundnovalidation'] = 'This means that the record exists. However, no validation was done.';
 
 $string['nologavailable'] = '<p>Logging is not available when using PHP mail() function. However, may find logs on your server. Most common locations on Linux include:</p>
 <ul>

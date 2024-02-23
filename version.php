@@ -18,7 +18,7 @@
  * Version information for eMailTest (also called MailTest).
  *
  * @package    local_mailtest
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mailtest';  // To check on upgrade, that module sits in correct place.
-$plugin->version   = 2023102300;        // The current module version (Date: YYYYMMDDXX).
+$plugin->version   = 2024022200;        // The current module version (Date: YYYYMMDDXX).
 $plugin->requires  = 2013040500;        // Requires Moodle version 2.5.
-$plugin->release   = '3.0.1';
+$plugin->release   = '3.1.0';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->cron      = 0;

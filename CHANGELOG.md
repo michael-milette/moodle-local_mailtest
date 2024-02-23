@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2024-02-22
+### Added
+- Now tests domain for SPF configuration.
+- Now tests Moodle and domain for DKIM configuration.
+- Now tests domain for DMARC configuration.
+- Now tests domain for BIMI configuration.
+
 ## [3.0.1] - 2023-10-23
 ### Updated
 - Now only run the tests that make sense in order to reduce unlikely recommendations.

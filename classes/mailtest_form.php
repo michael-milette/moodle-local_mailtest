@@ -18,7 +18,7 @@
  * Main form for eMailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngcosulting.ca
  * @author     Michael Milette
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,11 +28,10 @@ require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Form to prompt administrator for the recipient's email address.
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngcosulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngcosulting.ca
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mailtest_form extends moodleform {
-
     /**
      * Define the form.
      */
@@ -58,7 +57,7 @@ class mailtest_form extends moodleform {
             $sendmethod .= ' (<a href="../../admin/settings.php?section=messagesettingemail">' .
                     get_string('change', 'admin') . '</a>)';
         }
-        $mform->addElement('static', 'sendmethod',  get_string('sendmethod', 'local_mailtest'), $sendmethod);
+        $mform->addElement('static', 'sendmethod', get_string('sendmethod', 'local_mailtest'), $sendmethod);
 
         // Sender.
 
@@ -74,10 +73,15 @@ class mailtest_form extends moodleform {
             $a->url = '../../user/editadvanced.php?course=1#fitem_id_email';
         }
         $a->type = get_string('youremail', 'local_mailtest');
-        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a)
+            . local_mailtest_checkdns(explode('@', $a->email)[1]), $a->email);
         if (!validate_email($a->email)) {
-            $senderarray[] = $mform->CreateElement('static', 'error', '',
-                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+            $senderarray[] = $mform->CreateElement(
+                'static',
+                'error',
+                '',
+                html_writer::span(get_string('invalidemail'), 'statuswarning')
+            );
         }
 
         // Support email address.
@@ -85,10 +89,15 @@ class mailtest_form extends moodleform {
         $a->email = empty($CFG->supportemail) ? $primaryadmin->email : $CFG->supportemail;
         $a->url = '../../admin/settings.php?section=supportcontact';
         $a->type = get_string('supportemail', 'admin');
-        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a)
+            . local_mailtest_checkdns(explode('@', $a->email)[1]), $a->email);
         if (!validate_email($a->email)) {
-            $senderarray[] = $mform->CreateElement('static', 'error', '',
-                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+            $senderarray[] = $mform->CreateElement(
+                'static',
+                'error',
+                '',
+                html_writer::span(get_string('invalidemail'), 'statuswarning')
+            );
         }
 
         // No Reply address.
@@ -100,10 +109,15 @@ class mailtest_form extends moodleform {
             $a->url = '../../admin/settings.php?section=messagesettingemail#noreplyaddress';
             $a->type = get_string('noreplyaddress', 'message_email');
         }
-        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a)
+            . local_mailtest_checkdns(explode('@', $a->email)[1]), $a->email);
         if (!validate_email($a->email)) {
-            $senderarray[] = $mform->CreateElement('static', 'error', '',
-                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+            $senderarray[] = $mform->CreateElement(
+                'static',
+                'error',
+                '',
+                html_writer::span(get_string('invalidemail'), 'statuswarning')
+            );
         }
 
         // Primary admin email address.
@@ -111,10 +125,15 @@ class mailtest_form extends moodleform {
         $a->email = $primaryadmin->email;
         $a->url = '../../user/editadvanced.php?id=' . $primaryadmin->id;
         $a->type = get_string('primaryadminemail', 'local_mailtest');
-        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a), $a->email);
+        $senderarray[] = $mform->createElement('radio', 'sender', '', get_string('from', 'local_mailtest', $a)
+            . local_mailtest_checkdns(explode('@', $a->email)[1]), $a->email);
         if (!validate_email($a->email)) {
-            $senderarray[] = $mform->CreateElement('static', 'error', '',
-                    html_writer::span(get_string('invalidemail'), 'statuswarning'));
+            $senderarray[] = $mform->CreateElement(
+                'static',
+                'error',
+                '',
+                html_writer::span(get_string('invalidemail'), 'statuswarning')
+            );
         }
 
         // Add group of sender radio buttons to form.
@@ -141,18 +160,25 @@ class mailtest_form extends moodleform {
             $divertstatus .= ' (<a href="../../admin/settings.php?section=outgoingmailconfig#admin-divertallemailsto">' .
                     get_string('change', 'admin') . '</a>)';
         }
-        $mform->addElement('static', 'divertemails',  get_string('divertallemails', 'local_mailtest'), $divertstatus);
+        if (!empty($CFG->divertallemailsto)) {
+            $divertstatus .= local_mailtest_checkdns(explode('@', $CFG->divertallemailsto)[1]);
+        }
+        $mform->addElement('static', 'divertemails', get_string('divertallemails', 'local_mailtest'), $divertstatus);
 
         // Always show communications log - even on success.
+
         $mform->addElement('checkbox', 'alwaysshowlog', '', get_string('alwaysshowlog', 'local_mailtest'));
         $mform->setDefault('alwaysshowlog', ($CFG->debugdisplay && isset($CFG->debugsmtp) && $CFG->debugsmtp));
 
         // Buttons.
 
         if ($disabled = !empty($CFG->noemailever)) {
-            $mform->addElement('static', 'noemailever',
-                    html_writer::div(get_string('messagingdisable', 'error'), 'alert alert-danger'),
-                    html_writer::div(get_string('noemaileverset', 'message_airnotifier'), 'alert alert-danger'));
+            $mform->addElement(
+                'static',
+                'noemailever',
+                html_writer::div(get_string('messagingdisable', 'error'), 'alert alert-danger'),
+                html_writer::div(get_string('noemaileverset', 'message_airnotifier'), 'alert alert-danger')
+            );
         }
         $buttonarray = [];
         if (!$disabled) {

@@ -18,7 +18,7 @@
  * Displays the form and processes the form submission.
  *
  * @package    local_mailtest
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -146,14 +146,16 @@ if (!$data) { // Display the form.
             $msg .= html_writer::link($link, $icon, ['class' => 'helplink', 'target' => '_blank', 'rel' => 'external']);
         }
         $msg .= '</p>';
-        $msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="' . get_string('closebuttontitle') .
-                '"><span aria-hidden="true">&times;</span></button>';
+        $msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="' . get_string('closebuttontitle') . '">'
+                . '<span aria-hidden="true">&times;</span></button>';
         local_mailtest_msgbox($msg, null, 3, 'alert alert-danger alert-block alert-dismissible fade show');
     }
 
     // Display the form. ============================================.
+
     $form->display();
-} else {      // Send test email.
+} else {
+    // Send test email.
     if (!isset($data->sender)) {
         $data->sender = $CFG->noreplyaddress;
     }
@@ -342,7 +344,8 @@ if (!$data) { // Display the form.
                 $issues .= get_string('failcredentials', 'local_' . $pluginname);
             }
 
-            // No-reply address is probably fake or contains a typo. Your mail server requires a real email address with a real mailbox.
+            // No-reply address is probably fake or contains a typo.
+            // Your mail server requires a real email address with a real mailbox.
             if (strpos($smtplog, '550') !== false) {
                 $issues .= get_string('failunknownmailbox', 'local_' . $pluginname);
             }
@@ -364,7 +367,7 @@ if (!$data) { // Display the form.
         // Failed to send message using PHPMailer.
         $title = get_string('emailfail', 'local_' . $pluginname);
         $msg = get_string('failphpmailer', 'local_' . $pluginname);
-        echo local_mailtest_msgbox($msg, $title, 3, 'errorbox', $url->out());
+        local_mailtest_msgbox($msg, $title, 3, 'errorbox', $url->out());
     }
 }
 

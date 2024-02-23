@@ -18,7 +18,7 @@
  * Library of functions for MailTest.
  *
  * @package    local_mailtest
- * @copyright  2015-2023 TNG Consulting Inc. - www.tngconsulting.ca
+ * @copyright  2015-2024 TNG Consulting Inc. - www.tngconsulting.ca
  * @author     Michael Milette
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -65,7 +65,6 @@ function local_mailtest_generate_email_user($email, $name = '', $id = -99) {
  *                               continue button if the link URL was specified.
  * @param      string  $id       (optional) An optional ID. Is applied to body
  *                               instead of heading if no heading.
- * @return     string  the HTML to output.
  */
 function local_mailtest_msgbox($text, $heading = null, $level = 2, $classes = null, $link = null, $id = null) {
     global $OUTPUT;
@@ -107,18 +106,16 @@ function local_mailtest_getuserip() {
 
     foreach ($filterlist as $filter) {
         foreach ($fieldlist as $field) {
-
             if (!array_key_exists($field, $_SERVER) || empty($_SERVER[$field])) {
                 continue;
             }
 
             $iplist = explode(',', $_SERVER[$field]);
             foreach ($iplist as $ip) {
-
                 // Strips off port number if it exists.
                 if (substr_count($ip, ':') == 1) {
                     // IPv4 with a port.
-                    list($ip) = explode(':', $ip);
+                    $ip = explode(':', $ip)[0];
                 } else if ($start = (substr($ip, 0, 1) == '[') && $end = strpos($ip, ']:') !== false) {
                     // IPv6 with a port.
                     $ip = substr($ip, $start + 1, $end - 2);
@@ -134,4 +131,219 @@ function local_mailtest_getuserip() {
     }
     // Private or restricted range.
     return $lastip;
+}
+
+/**
+ * Check DNS records for a given domain.
+ *
+ * This function checks the DKIM, SPF, DMARC, and BIMI records for a given domain.
+ * It returns an array with a success flag and a message string.
+ *
+ * @param string $domain The domain to check DNS records for.
+ * @return string Message string.
+ */
+function local_mailtest_checkdns($domain) {
+    $message = '<p class="alert alert-warning">' . get_string('checkingdomain', 'local_mailtest', $domain) . '</p>';
+    $success = true;
+
+    $xmark = '<i class="fa fa-circle-xmark text-danger" aria-hidden="true"></i> ';
+    $checkmark = '<i class="fa fa-check-circle text-success" aria-hidden="true"></i> ';
+    $exclamation = '<i class="fa fa-triangle-exclamation text-warning" aria-hidden="true"></i> ';
+
+    // Check SPF records.
+
+    // Perform DNS query for SPF TXT records.
+    $spf = false;
+    $spfrecords = @dns_get_record($domain, DNS_TXT);
+    if (empty($dmarcrecords)) {
+        // No SPF records found.
+        $message .= $exclamation . get_string('spfnorecordfound', 'local_mailtest')  . '<br>';
+    } else {
+        // SPF records found.
+        $message .= $checkmark . get_string('spfrecordfound', 'local_mailtest')  . '<br>';
+
+        // Check if it has the required tags.
+        foreach ($spfrecords as $record) {
+            if (strpos($record['txt'], 'v=spf1') !== false) {
+                // Extract found SPF record data.
+                $spfdata = $record['txt'];
+
+                // Check if the SPF record contains at least one mechanism (mandatory).
+                if (preg_match('/^v=spf1(\s+\w+=\S+)+(\s+\w+)?$/', $spfdata)) {
+                    // SPF record contains at least one mechanism, it's valid.
+                    $message .= $checkmark . get_string('spfvalidrecord', 'local_mailtest')  . '<br>';
+                    $spf = true;
+                    break;
+                }
+            }
+            if (!$spf) {
+                $message .= $xmark . get_string('spfinvalidrecord', 'local_mailtest')  . '<br>';
+            }
+        }
+    }
+
+    // Check DKIM record.
+
+    $dkim = false;
+    $dkimrecords = @dns_get_record("_domainkey." . $domain, DNS_TXT);
+    if (empty($dkimrecord)) {
+        // No DKIM records found.
+        $message .= $exclamation . get_string('dkimnorecordfound', 'local_mailtest')  . '<br>';
+    } else {
+        // DKIM records found.
+        $message .= $checkmark . get_string('dkimrecordfound', 'local_mailtest')  . '<br>';
+
+        // Check if it has the required tags.
+        foreach ($dkimrecords as $record) {
+            // Extract DKIM record data.
+            $dkimdata = $record['txt'];
+
+            // Check if the DKIM record contains all mandatory tags.
+            if (
+                strpos($dkimdata, 'v=DKIM1') !== false &&
+                strpos($dkimdata, 'k=') !== false &&
+                strpos($dkimdata, 'p=') !== false
+            ) {
+                // DKIM record contains all mandatory tags, it's valid.
+                $message .= $checkmark . get_string('dkimvalidrecord', 'local_mailtest')  . '<br>';
+                $dkim = true;
+                break;
+            }
+        }
+        if (!$dkim) {
+            $message .= $xmark . get_string('dkiminvalidrecord', 'local_mailtest')  . '<br>';
+        } else {
+            if (empty($CFG->emaildkimselector)) {
+                $message .= $exclamation . get_string('dkimmissingselector', 'local_mailtest')  . '<br>';
+            } else {
+                $message .= $checkmark . get_string('dkimselectorconfigured', 'local_mailtest')  . '<br>';
+            }
+        }
+    }
+
+    // Check DMARC records.
+
+    $dmarcrecords = @dns_get_record("_dmarc." . $domain, DNS_TXT);
+    if (empty($dmarcrecords)) {
+        // No DMARC records found.
+        $message .= $xmark . get_string('dmarcnorecordfound', 'local_mailtest')  . '<br>';
+        $success = false;
+    } else {
+        // DMARC records found.
+        $message .= $checkmark . get_string('dmarcrecordfound', 'local_mailtest')  . '<br>';
+
+        // Check if it has the required tags.
+        foreach ($dmarcrecords as $record) {
+            if (
+                preg_match('/v=DMARC1;/', $record['txt'])
+                && preg_match('/p=(none|quarantine|reject);/', $record['txt'])
+            ) {
+                // Required DMARC tags are present and valid.
+                $message .= $checkmark . get_string('dmarctagsfound', 'local_mailtest')  . '<br>';
+
+                // Check rua tag if present.
+                $ruavalue = false;
+                if (preg_match('/rua=([^;]+)/', $record['txt'], $matches)) {
+                    $ruavalue = $matches[1];
+                    // Validate rua value format (should be a valid URI).
+                    if (!filter_var($ruavalue, FILTER_VALIDATE_URL) && !filter_var("mailto:" . $ruavalue, FILTER_VALIDATE_EMAIL)) {
+                        // The rua value is not formatted correctly.
+                        $message .= $xmark . get_string('dmarcruainvalid', 'local_mailtest')  . '<br>';
+                        $success = false;
+                    }
+                }
+
+                // Check ruf tag if present.
+                $rufvalue = false;
+                if (preg_match('/ruf=([^;]+)/', $record['txt'], $matches)) {
+                    $rufvalue = $matches[1];
+                    // Validate ruf value format (should be a valid URI).
+                    if (!filter_var($rufvalue, FILTER_VALIDATE_URL) && !filter_var("mailto:" . $rufvalue, FILTER_VALIDATE_EMAIL)) {
+                        // The ruf value is not formatted correctly.
+                        $message .= $xmark . get_string('dmarcruainvalid', 'local_mailtest')  . '<br>';
+                        $success = false;
+                    }
+                }
+
+                // Check pct tag if present.
+                $pctvalue = false;
+                if (preg_match('/pct=([0-9]+)/', $record['txt'], $matches)) {
+                    $pctvalue = intval($matches[1]);
+                    // Validate pct value range (should be between 0 and 100).
+                    if ($pctvalue < 0 || $pctvalue > 100) {
+                        // The pct value is not within the valid range.
+                        $message .= $xmark . get_string('dmarcpctinvalid', 'local_mailtest')  . '<br>';
+                        $success = false;
+                    }
+                }
+                break;
+            } else {
+                // Required tags not found in any of the DMARC records.
+                $message .= $checkmark . get_string('dmarctagsfound', 'local_mailtest')  . '<br>';
+                $success = false;
+            }
+        }
+    }
+
+    // Check to ensure that either DKIM or SPF is configured.
+    if (!$dkim && !$spf) {
+        $message .= $xmark . get_string('dkimspffailed', 'local_mailtest')  . '<br>';
+        $success = false;
+    }
+
+    // Check BIMI record.
+
+    // Perform DNS query for BIMI TXT records.
+    $bimirecords = @dns_get_record("_bimi." . $domain, DNS_TXT);
+    if (empty($bimirecords)) {
+        // Required tags not found in any of the DMARC records.
+        $message .= $xmark . get_string('biminorecordfound', 'local_mailtest')  . '<br>';
+        $success = false;
+    } else {
+        // Records found. Check if it has the required tags.
+        $message .= $checkmark . get_string('bimirecordfound', 'local_mailtest')  . '<br>';
+
+        // Loop through each BIMI record.
+        foreach ($bimirecords as $record) {
+            // Extract BIMI record data.
+            $bimidata = $record['txt'];
+
+            // Check if BIMI record contains both v and l tags.
+            if (strpos($bimidata, 'v=BIMI1') !== false && strpos($bimidata, 'l=') !== false) {
+                // Required DMARC tags are present and valid.
+                $message .= $checkmark . get_string('bimitagsfound', 'local_mailtest')  . '<br>';
+
+                // Extract logo URL from the BIMI record.
+                preg_match('/l=([^;]+)/', $bimidata, $matches);
+                $logourl = $matches[1];
+
+                // Validate existence of logo URL.
+                $headers = @get_headers($logourl);
+                if ($headers && strpos($headers[0], '200')) {
+                    // Logo URL exists, BIMI record is valid.
+                    $message .= $checkmark . get_string('bimiinvalidlogo', 'local_mailtest', $logourl)  . '<br>';
+                    break;
+                }
+            }
+        }
+        if (!$success) {
+            // Required tags not found in any of the DMARC records.
+            $message .= $xmark . get_string('bimidmarcfailure', 'local_mailtest')  . '<br>';
+            $success = false;
+        }
+        if ($pctvalue != 100) {
+            $message .= $xmark . get_string('bimipctinvalid', 'local_mailtest')  . '<br>';
+            $success = false;
+        }
+    }
+
+    $icon = $success ? 'fa-info-circle text-info' : 'fa-triangle-exclamation text-warning';
+    $title = get_string('iconlabel', 'local_mailtest', $domain);
+    $popupicon = '<a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover"'
+        . ' data-placement="right" data-content="<div class=&quot;no-overflow&quot;><p>{message}</p></div>"'
+        . ' data-html="true" tabindex="0" data-trigger="focus">'
+        . '<i class="icon fa ' . $icon . ' fa-fw " title="' . $title . '" aria-label="' . $title . '"></i></a>';
+    $message = str_replace('{message}', str_replace('"', '&quot;', $message), $popupicon);
+
+    return $message;
 }

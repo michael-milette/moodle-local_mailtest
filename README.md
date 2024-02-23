@@ -230,7 +230,7 @@ https://github.com/michael-milette/moodle-local_mailtest
 
 # License
 
-Copyright © 2015-2023 TNG Consulting Inc. - https://www.tngconsulting.ca/
+Copyright © 2015-2024 TNG Consulting Inc. - https://www.tngconsulting.ca/
 
 This file is part of MailTest/eMailTest for Moodle - https://moodle.org/
 
