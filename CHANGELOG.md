@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.1] - 2024-04-23
+### Added
+- Github CI Workflows.
+- Github security reporting
+### Updated
+- Bug reporting form.
+- Tested compatible with PHP 5.6 to 8.3.
+- Compatible with Moodle up to v4.4.
+
 ## [3.1.0] - 2024-02-22
 ### Added
 - Now tests domain for SPF configuration.

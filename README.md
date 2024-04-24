@@ -2,8 +2,8 @@
 
 Local eMailTest plugin for Moodle
 =================================
-![PHP](https://img.shields.io/badge/PHP-v5.6%20to%208.2-blue.svg)
-![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v4.3-orange.svg)
+![PHP](https://img.shields.io/badge/PHP-v5.6%20to%208.3-blue.svg)
+![Moodle](https://img.shields.io/badge/Moodle-v2.5%20to%20v4.4-orange.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/michael-milette/moodle-local_mailtest.svg)](https://github.com/michael-milette/moodle-local_mailtest/issues)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-green.svg)](#contributing)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](#license)
