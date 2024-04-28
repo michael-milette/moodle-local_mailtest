@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.2] - 2024-04-28
+### Updated
+- Fixed incorrect error message for invalid DMARC ruf.
+- Cleaned-up language file.
+
 ## [3.1.1] - 2024-04-23
 ### Added
 - Github CI Workflows.

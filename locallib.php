@@ -260,7 +260,7 @@ function local_mailtest_checkdns($domain) {
                     // Validate ruf value format (should be a valid URI).
                     if (!filter_var($rufvalue, FILTER_VALIDATE_URL) && !filter_var("mailto:" . $rufvalue, FILTER_VALIDATE_EMAIL)) {
                         // The ruf value is not formatted correctly.
-                        $message .= $xmark . get_string('dmarcruainvalid', 'local_mailtest')  . '<br>';
+                        $message .= $xmark . get_string('dmarcrufinvalid', 'local_mailtest')  . '<br>';
                         $success = false;
                     }
                 }
