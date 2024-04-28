@@ -107,8 +107,8 @@ $string['nologavailable'] = '<p>Logging is not available when using PHP mail() f
 <p>Alernatively, a custom location may be specified using the mail.log setting in php.ini.</p>';
 $string['notregistered'] = 'Not registered or not logged in.';
 $string['phpmethod'] = 'PHP default method';
-$string['pluginname_help'] = 'eMail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
 $string['pluginname'] = 'eMail Test';
+$string['pluginname_help'] = 'eMail Test will verify the email settings for this Moodle site by sending a test email message to the address you specify. For Site Administrators only.';
 $string['primaryadminemail'] = 'Primary admin email';
 $string['privacy:metadata'] = 'The eMail Test plugin does not store any personal data about any user.';
 $string['registered'] = 'Registered user ({$a}).';
