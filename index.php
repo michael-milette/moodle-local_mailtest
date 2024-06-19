@@ -107,7 +107,7 @@ if (!$data) { // Display the form.
         }
 
         $lastcroninterval = get_config('tool_task', 'lastcroninterval');
-        $expectedfrequency = $CFG->expectedcronfrequency ?? MINSECS;
+        $expectedfrequency = isset($CFG->expectedcronfrequency) ? $CFG->expectedcronfrequency : MINSECS;
         $croninfrequent = !$cronoverdue && ($lastcroninterval > ($expectedfrequency + MINSECS)
                 || $lastcron < time() - $expectedfrequency);
         if ($croninfrequent) {
@@ -276,7 +276,8 @@ if (!$data) { // Display the form.
 
                 // Split the host and the port.
                 $host = explode(':', $host . ':25'); // Set default port to 25 in case none was specified.
-                [$host, $port] = $host;
+                $host = $host[0];
+                $port = $host[1];
                 $port = (int)$port;
 
                 // Check for DNS record lookup failure. Skip if host is an IP address.
