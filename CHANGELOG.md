@@ -1,11 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [3.1.3] - 2024-06-28 (dev)
+## [3.1.5] - 2024-06-28
 ### Update
-- Fixed issue with DNS test exclamation triangles buttons not showing up.
 - Fixed some compatibility issues with PHP 5.6 and 7.0.
-- SPF, DMIK and DMARC are now detected properly.
+- DNS test exclamation triangles icons now showing up in older versions of Moodle LMS.
+- Improved SPF, DMIK and DMARC detection.
 
 ## [3.1.2] - 2024-04-28
 ### Updated

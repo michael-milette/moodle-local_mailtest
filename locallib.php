@@ -148,7 +148,7 @@ function local_mailtest_checkdns($domain) {
     $message = '';
     $success = true;
 
-    $xmark = '<i class="fa fa-circle-xmark text-danger" aria-hidden="true"></i> ';
+    $xmark = '<i class="fa fa-times-circle text-danger" aria-hidden="true"></i> ';
     $checkmark = '<i class="fa fa-check-circle text-success" aria-hidden="true"></i> ';
     $exclamation = '<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> ';
 
@@ -415,7 +415,7 @@ function local_mailtest_checkdns($domain) {
         }
     }
 
-    $icon = $success ? 'fa-info-circle text-info' : 'fa-triangle-exclamation text-warning';
+    $icon = $success ? 'fa-info-circle text-info' : 'fa-exclamation-triangle text-warning';
     $title = get_string('iconlabel', 'local_mailtest', $domain);
     $popupicon = '<a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover"'
         . ' data-placement="right" data-content="<div class=&quot;no-overflow&quot;><p>{message}</p></div>"'
