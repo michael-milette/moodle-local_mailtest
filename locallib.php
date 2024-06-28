@@ -148,7 +148,7 @@ function local_mailtest_checkdns($domain) {
 
     $xmark = '<i class="fa fa-circle-xmark text-danger" aria-hidden="true"></i> ';
     $checkmark = '<i class="fa fa-check-circle text-success" aria-hidden="true"></i> ';
-    $exclamation = '<i class="fa fa-triangle-exclamation text-warning" aria-hidden="true"></i> ';
+    $exclamation = '<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> ';
 
     // Check SPF records.
 

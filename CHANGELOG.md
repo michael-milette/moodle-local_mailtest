@@ -1,8 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [3.1.3] - 2024-06-19 (dev)
+## [3.1.3] - 2024-06-28 (dev)
 ### Update
+- Fixed issue with DNS test exclamation triangles buttons not showing up.
 - Fixed some compatibility issues with PHP 5.6 and 7.0.
 
 ## [3.1.2] - 2024-04-28
