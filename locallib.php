@@ -143,7 +143,9 @@ function local_mailtest_getuserip() {
  * @return string Message string.
  */
 function local_mailtest_checkdns($domain) {
-    $message = '<p class="alert alert-warning">' . get_string('checkingdomain', 'local_mailtest', $domain) . '</p>';
+    global $CFG;
+
+    $message = '';
     $success = true;
 
     $xmark = '<i class="fa fa-circle-xmark text-danger" aria-hidden="true"></i> ';
@@ -152,79 +154,155 @@ function local_mailtest_checkdns($domain) {
 
     // Check SPF records.
 
+    $regex = '/^v=spf1( +([-+?~]?(all|include:(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\})|a(:(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}))?((\/(\d|1\d|2\d|3[0-2]))?(\/\/'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|mx(:(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}))?((\/(\d|1\d|2\d|3[0-2]))?'
+        . '(\/\/([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|ptr(:(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}))?|ip4:([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]'
+        . '|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]'
+        . '|25[0-5])(\/([0-9]|1[0-9]|2[0-9]|3[0-2]))?|ip6:(::|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|'
+        . '([0-9A-Fa-f]{1,4}:){1,8}:|([0-9A-Fa-f]{1,4}:){7}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){6}(:'
+        . '[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){4}'
+        . '(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,5}|([0-9A-Fa-f]{1,4}:){2}'
+        . '(:[0-9A-Fa-f]{1,4}){1,6}|[0-9A-Fa-f]{1,4}:(:[0-9A-Fa-f]{1,4}){1,7}|:(:[0-9A-Fa-f]{1,4}){1,8}|'
+        . '([0-9A-Fa-f]{1,4}:){6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|'
+        . '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]'
+        . '|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){6}:'
+        . '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]'
+        . '|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?'
+        . '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]'
+        . '|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}([0-9]|[1-9][0-9]'
+        . '|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+        . '\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}([0-9]|[1-9][0-9]'
+        . '|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+        . '\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}([0-9]|[1-9][0-9]'
+        . '|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+        . '\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])|[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}([0-9]|[1-9][0-9]'
+        . '|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+        . '\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}'
+        . '|2[0-4][0-9]|25[0-5])|::([0-9A-Fa-f]{1,4}:){0,6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]'
+        . '|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]'
+        . '|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))'
+        . '(\/(\d{1,2}|10[0-9]|11[0-9]|12[0-8]))?|exists:(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}))|redirect=(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\})|exp=(%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]'
+        . '|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]'
+        . '([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*='
+        . '(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?r?[+-\/=_]*\}|%%|%_|%-|'
+        . '[!-$&-~])*))* *$/';
+
     // Perform DNS query for SPF TXT records.
     $spf = false;
-    $spfrecords = @dns_get_record($domain, DNS_TXT);
-    if (empty($dmarcrecords)) {
-        // No SPF records found.
-        $message .= $exclamation . get_string('spfnorecordfound', 'local_mailtest')  . '<br>';
-    } else {
-        // SPF records found.
-        $message .= $checkmark . get_string('spfrecordfound', 'local_mailtest')  . '<br>';
-
-        // Check if it has the required tags.
-        foreach ($spfrecords as $record) {
+    $txtrecords = @dns_get_record($domain, DNS_TXT);
+    // If a TXT records is found, check if it contains SPF record.
+    if (!empty($txtrecords)) {
+        // Check if any have the required tags.
+        foreach ($txtrecords as $record) {
             if (strpos($record['txt'], 'v=spf1') !== false) {
+                // SPF record found.
+                $message .= $checkmark . get_string('spfrecordfound', 'local_mailtest')  . '<br>';
+
                 // Extract found SPF record data.
                 $spfdata = $record['txt'];
 
                 // Check if the SPF record contains at least one mechanism (mandatory).
-                if (preg_match('/^v=spf1(\s+\w+=\S+)+(\s+\w+)?$/', $spfdata)) {
+                if (preg_match($regex, $spfdata)) {
                     // SPF record contains at least one mechanism, it's valid.
                     $message .= $checkmark . get_string('spfvalidrecord', 'local_mailtest')  . '<br>';
                     $spf = true;
                     break;
                 }
-            }
-            if (!$spf) {
-                $message .= $xmark . get_string('spfinvalidrecord', 'local_mailtest')  . '<br>';
+                if (!$spf) {
+                    $message .= $xmark . get_string('spfinvalidrecord', 'local_mailtest')  . '<br>';
+                }
             }
         }
+    }
+    // No SPF record was found.
+    if (!$spf && empty($message)) {
+        $message .= $exclamation . get_string('spfnorecordfound', 'local_mailtest')  . '<br>';
     }
 
     // Check DKIM record.
 
     $dkim = false;
-    $dkimrecords = @dns_get_record("_domainkey." . $domain, DNS_TXT);
-    if (empty($dkimrecord)) {
-        // No DKIM records found.
-        $message .= $exclamation . get_string('dkimnorecordfound', 'local_mailtest')  . '<br>';
+    if (empty($emaildkimselector = $CFG->emaildkimselector)) {
+        $message .= $exclamation . get_string('dkimmissingselector', 'local_mailtest')  . '<br>';
     } else {
-        // DKIM records found.
-        $message .= $checkmark . get_string('dkimrecordfound', 'local_mailtest')  . '<br>';
+        $txtrecords = @dns_get_record($emaildkimselector . '._domainkey.' . $domain, DNS_TXT);
 
-        // Check if it has the required tags.
-        foreach ($dkimrecords as $record) {
-            // Extract DKIM record data.
-            $dkimdata = $record['txt'];
+        // If TXT records are found named *_domainkey, check if it contains DKIM record.
+        if (!empty($txtrecords)) {
+            // DKIM records found.
+            $message .= $checkmark . get_string('dkimrecordfound', 'local_mailtest')  . '<br>';
 
-            // Check if the DKIM record contains all mandatory tags.
-            if (
-                strpos($dkimdata, 'v=DKIM1') !== false &&
-                strpos($dkimdata, 'k=') !== false &&
-                strpos($dkimdata, 'p=') !== false
-            ) {
-                // DKIM record contains all mandatory tags, it's valid.
-                $message .= $checkmark . get_string('dkimvalidrecord', 'local_mailtest')  . '<br>';
-                $dkim = true;
-                break;
+            // Check if it has the required tags.
+            foreach ($txtrecords as $record) {
+                // Extract DKIM record data.
+                $dkimdata = $record['txt'];
+
+                // Check if the DKIM record contains all mandatory tags.
+                if (
+                    strpos($dkimdata, 'v=DKIM1') !== false &&
+                    strpos($dkimdata, 'k=') !== false &&
+                    strpos($dkimdata, 'p=') !== false
+                ) {
+                    // DKIM record contains all mandatory tags, it's valid.
+                    $message .= $checkmark . get_string('dkimvalidrecord', 'local_mailtest')  . '<br>';
+                    $dkim = true;
+                    break;
+                }
+            }
+            if (!$dkim) {
+                $message .= $xmark . get_string('dkiminvalidrecord', 'local_mailtest')  . '<br>';
+            } else {
+                if (empty($CFG->emaildkimselector)) {
+                    $message .= $exclamation . get_string('dkimmissingselector', 'local_mailtest')  . '<br>';
+                } else {
+                    $message .= $checkmark . get_string('dkimselectorconfigured', 'local_mailtest')  . '<br>';
+                }
+            }
+        } else {
+            // Check to see if there might be a CNAME record instead.
+            $records = @dns_get_record($emaildkimselector . '._domainkey.' . $domain, DNS_CNAME);
+            $dkim = !empty($records);
+            if ($dkim) {
+                // DKIM CNAME type records can points to a DKIM key stored on another server.
+                $message .= $checkmark . get_string('dkimrecordfound', 'local_mailtest')  . '<br>';
             }
         }
+
         if (!$dkim) {
-            $message .= $xmark . get_string('dkiminvalidrecord', 'local_mailtest')  . '<br>';
-        } else {
-            if (empty($CFG->emaildkimselector)) {
-                $message .= $exclamation . get_string('dkimmissingselector', 'local_mailtest')  . '<br>';
-            } else {
-                $message .= $checkmark . get_string('dkimselectorconfigured', 'local_mailtest')  . '<br>';
-            }
+            // No DKIM record was found.
+            $message .= $exclamation . get_string('dkimnorecordfound', 'local_mailtest')  . '<br>';
         }
     }
 
     // Check DMARC records.
 
-    $dmarcrecords = @dns_get_record("_dmarc." . $domain, DNS_TXT);
-    if (empty($dmarcrecords)) {
+    $txtrecords = @dns_get_record('_dmarc.' . $domain, DNS_TXT);
+    if (empty($txtrecords)) {
         // No DMARC records found.
         $message .= $xmark . get_string('dmarcnorecordfound', 'local_mailtest')  . '<br>';
         $success = false;
@@ -233,7 +311,7 @@ function local_mailtest_checkdns($domain) {
         $message .= $checkmark . get_string('dmarcrecordfound', 'local_mailtest')  . '<br>';
 
         // Check if it has the required tags.
-        foreach ($dmarcrecords as $record) {
+        foreach ($txtrecords as $record) {
             if (
                 preg_match('/v=DMARC1;/', $record['txt'])
                 && preg_match('/p=(none|quarantine|reject);/', $record['txt'])
@@ -294,8 +372,8 @@ function local_mailtest_checkdns($domain) {
     // Check BIMI record.
 
     // Perform DNS query for BIMI TXT records.
-    $bimirecords = @dns_get_record("_bimi." . $domain, DNS_TXT);
-    if (empty($bimirecords)) {
+    $txtrecords = @dns_get_record('_bimi.' . $domain, DNS_TXT);
+    if (empty($txtrecords)) {
         // Required tags not found in any of the DMARC records.
         $message .= $xmark . get_string('biminorecordfound', 'local_mailtest')  . '<br>';
         $success = false;
@@ -304,7 +382,7 @@ function local_mailtest_checkdns($domain) {
         $message .= $checkmark . get_string('bimirecordfound', 'local_mailtest')  . '<br>';
 
         // Loop through each BIMI record.
-        foreach ($bimirecords as $record) {
+        foreach ($txtrecords as $record) {
             // Extract BIMI record data.
             $bimidata = $record['txt'];
 
@@ -343,6 +421,7 @@ function local_mailtest_checkdns($domain) {
         . ' data-placement="right" data-content="<div class=&quot;no-overflow&quot;><p>{message}</p></div>"'
         . ' data-html="true" tabindex="0" data-trigger="focus">'
         . '<i class="icon fa ' . $icon . ' fa-fw " title="' . $title . '" aria-label="' . $title . '"></i></a>';
+    $message = '<p class="alert alert-warning">' . get_string('checkingdomain', 'local_mailtest', $domain) . '</p>' . $message;
     $message = str_replace('{message}', str_replace('"', '&quot;', $message), $popupicon);
 
     return $message;

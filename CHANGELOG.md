@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Update
 - Fixed issue with DNS test exclamation triangles buttons not showing up.
 - Fixed some compatibility issues with PHP 5.6 and 7.0.
+- SPF, DMIK and DMARC are now detected properly.
 
 ## [3.1.2] - 2024-04-28
 ### Updated
