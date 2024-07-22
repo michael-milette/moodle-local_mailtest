@@ -195,11 +195,11 @@ if (!$data) { // Display the form.
     ob_end_flush();
     ob_implicit_flush(true);
     echo '<h2 class="alert-heading">' . get_string('testing', 'local_' . $pluginname) . '</h2>';
-    echo '<p>' . get_string('from') . ' : ' . $fromemail->email . '<br>
+    echo '<p>' . get_string('fromsender') . ' : ' . $fromemail->email . '<br>
         &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095;<br>
         ' . get_string('server', 'local_' . $pluginname, (empty($CFG->smtphosts) ? 'PHPMailer' : $CFG->smtphosts)) . '<br>
         &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#129095;<br>
-        ' . get_string('to') . ' : ' . $toemail->email . '</p>';
+        ' . get_string('torecipient') . ' : ' . $toemail->email . '</p>';
     ob_implicit_flush(false);
 
     // Manage Moodle SMTP debugging display.
