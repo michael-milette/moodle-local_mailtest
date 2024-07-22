@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.6] - 2024-07-22
+### Updated
+- Fixed deprecated strings in Moodle 4.4.
+
 ## [3.1.5] - 2024-06-28
 ### Update
 - Fixed some compatibility issues with PHP 5.6 and 7.0.

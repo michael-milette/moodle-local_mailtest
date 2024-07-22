@@ -208,6 +208,10 @@ If you are interested in helping, please take a look at our [contributing](https
 
 Michael Milette - Author and Lead Developer
 
+Big thank you to the following contributors. (Please let me know if I forgot to include you in the list):
+
+* laurentdavid: Fixed deprecated strings in Moodle 4.4 (2024).
+
 ## Pending Features
 
 Let us know if you have any suggestions.

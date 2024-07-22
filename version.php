@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_mailtest';  // To check on upgrade, that module sits in correct place.
-$plugin->version   = 2024062801;        // The current module version (Date: YYYYMMDDXX).
+$plugin->version   = 2024072200;        // The current module version (Date: YYYYMMDDXX).
 $plugin->requires  = 2013040500;        // Requires Moodle version 2.5.
-$plugin->release   = '3.1.5';
+$plugin->release   = '3.1.6';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->cron      = 0;
