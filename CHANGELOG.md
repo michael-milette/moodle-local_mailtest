@@ -1,9 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [3.1.7] - 2024-10-03
+## [3.1.7] - 2025-04-27
 ### Updates
-- Fixes Moodle 5.0 compatbility issue.
+- Fixes Moodle 5.0 compatibility issue.
 - Compatible with Moodle up to v5.0.
 - Updated copyright for 2025.
 
