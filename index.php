@@ -98,7 +98,7 @@ if (!$data) { // Display the form.
 
     $cronwarning = '';
     if ($CFG->branch >= 37) {
-        defined('MINSECS') || define('MINSECS', 200); // For pre-Moodle 3.9 compatibility.
+        defined('MINSECS') || define('MINSECS', 60); // For pre-Moodle 3.9 compatibility.
         $lastcron = get_config('tool_task', 'lastcronstart');
         $cronoverdue = ($lastcron < time() - 3600 * 24);
         $check = $PAGE->get_renderer('core', 'admin');
