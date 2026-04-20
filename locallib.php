@@ -116,9 +116,9 @@ function local_mailtest_getuserip() {
                 if (substr_count($ip, ':') == 1) {
                     // IPv4 with a port.
                     $ip = explode(':', $ip)[0];
-                } else if ($start = (substr($ip, 0, 1) == '[') && $end = strpos($ip, ']:') !== false) {
-                    // IPv6 with a port.
-                    $ip = substr($ip, $start + 1, $end - 2);
+                } else if (substr($ip, 0, 1) === '[' && ($bracketend = strpos($ip, ']:')) !== false) {
+                    // IPv6 with a port: [::1]:port — extract address between brackets.
+                    $ip = substr($ip, 1, $bracketend - 1);
                 }
                 // Sanitize so that we only get public addresses.
                 $lastip = $ip; // But save other address just in case.
