@@ -283,10 +283,9 @@ if (!$data) { // Display the form.
                 }
 
                 // Split the host and the port.
-                $host = explode(':', $host . ':25'); // Set default port to 25 in case none was specified.
-                $host = $host[0];
-                $port = $host[1];
-                $port = (int)$port;
+                $parts = explode(':', $host . ':25'); // Set default port to 25 in case none was specified.
+                $host = $parts[0];
+                $port = (int)$parts[1];
 
                 // Check for DNS record lookup failure. Skip if host is an IP address.
                 if (
