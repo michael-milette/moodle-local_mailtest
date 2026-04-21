@@ -1,6 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.8] - 2026-04-20
+### Updates
+- Fix grammar errors in dkiminvalidrecord and spfinvalidrecord strings
+- Remove deprecated \$plugin->cron from version.php
+- Fix PHP 5.3 array dereferencing and CreateElement casing in form
+- Remove dead get_system_context() branch
+- Replace hardcoded English redirect message with translatable string
+- Guard HTTP_USER_AGENT and HTTP_REFERER superglobals against undefined key
+- Guard deprecated cron_overdue/infrequent_warning renderer methods
+- Fix Bootstrap 4 dismiss button for Moodle 4.0+ (Bootstrap 5)
+- Fix Font Awesome icon class names for Moodle 4.2+ (Font Awesome 6)
+- Replace deprecated FILTER_SANITIZE_EMAIL with FILTER_VALIDATE_EMAIL
+- Fix undefined \$pctvalue warning when DMARC records are absent
+- Fix IPv6-with-port address extraction logic
+- Fix SMTP port extraction overwriting host variable
+- Fix MINSECS fallback constant value from 200 to 60
+- Updated copyright notice for 2026.
+- Now compatible with PHP 5.3 to 8.4.
+- Compatible with Moodle LMS 2.4 to 5.2.
+
 ## [3.1.7] - 2025-04-27
 ### Updates
 - Fixes Moodle 5.0 compatibility issue.
