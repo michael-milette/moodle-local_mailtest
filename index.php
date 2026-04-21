@@ -38,7 +38,7 @@ global $CFG, $OUTPUT, $USER, $SITE, $PAGE;
 $homeurl = new moodle_url('/');
 require_login();
 if (!is_siteadmin()) {
-    redirect($homeurl, "This feature is only available for site administrators.", 5);
+    redirect($homeurl, get_string('siteadminsonly', 'local_mailtest'), 5);
 }
 
 // URL Parameters.

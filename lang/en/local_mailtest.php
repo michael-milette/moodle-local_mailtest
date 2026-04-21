@@ -117,6 +117,7 @@ $string['sendtest'] = 'Send a test message';
 $string['sentmail'] = 'Moodle successfully delivered the test message to the SMTP mail server.';
 $string['sentmailphp'] = 'The Moodle test message was successfully accepted by PHP Mail.';
 $string['server'] = 'Server: {$a}';
+$string['siteadminsonly'] = 'This feature is only available for site administrators.';
 $string['smtpmethod'] = 'SMTP hosts: {$a}';
 $string['spfinvalidrecord'] = 'SPF record must contains at least one mechanism.';
 $string['spfnorecordfound'] = 'SPF record is missing.';
