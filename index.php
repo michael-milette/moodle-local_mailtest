@@ -146,8 +146,16 @@ if (!$data) { // Display the form.
             $msg .= html_writer::link($link, $icon, ['class' => 'helplink', 'target' => '_blank', 'rel' => 'external']);
         }
         $msg .= '</p>';
-        $msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="' . get_string('closebuttontitle') . '">'
-                . '<span aria-hidden="true">&times;</span></button>';
+        if ($CFG->branch >= 500) {
+            // Moodle 5.0+ uses Bootstrap 5.
+            $msg .= '<button type="button" class="btn-close" data-bs-dismiss="alert"'
+                    . ' aria-label="' . get_string('closebuttontitle') . '"></button>';
+        } else {
+            // Moodle up to 4.x uses Bootstrap 4.
+            $msg .= '<button type="button" class="close" data-dismiss="alert"'
+                    . ' aria-label="' . get_string('closebuttontitle') . '">'
+                    . '<span aria-hidden="true">&times;</span></button>';
+        }
         local_mailtest_msgbox($msg, null, 3, 'alert alert-danger alert-block alert-dismissible fade show');
     }
 
