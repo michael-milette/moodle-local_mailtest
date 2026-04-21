@@ -52,11 +52,7 @@ require_once(dirname(__FILE__) . '/classes/' . $pluginname . '_form.php');
 $title = get_string('pluginname', 'local_' . $pluginname);
 $heading = get_string('heading', 'local_' . $pluginname);
 $url = new moodle_url('/local/' . $pluginname . '/');
-if ($CFG->branch >= 25) { // Moodle 2.5+.
-    $context = context_system::instance();
-} else {
-    $context = get_system_context();
-}
+$context = context_system::instance();
 
 $PAGE->set_pagelayout('admin');
 $PAGE->set_url($url);
