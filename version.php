@@ -30,4 +30,3 @@ $plugin->version   = 2025042700;        // The current module version (Date: YYY
 $plugin->requires  = 2013040500;        // Requires Moodle version 2.5.
 $plugin->release   = '3.1.7';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->cron      = 0;
