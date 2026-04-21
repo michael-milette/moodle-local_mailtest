@@ -301,6 +301,7 @@ function local_mailtest_checkdns($domain) {
 
     // Check DMARC records.
 
+    $pctvalue = false; // Initialise before DMARC block; used later by BIMI check.
     $txtrecords = @dns_get_record('_dmarc.' . $domain, DNS_TXT);
     if (empty($txtrecords)) {
         // No DMARC records found.
