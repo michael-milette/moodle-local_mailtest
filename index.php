@@ -102,7 +102,8 @@ if (!$data) { // Display the form.
         $lastcron = get_config('tool_task', 'lastcronstart');
         $cronoverdue = ($lastcron < time() - 3600 * 24);
         $check = $PAGE->get_renderer('core', 'admin');
-        if ($cronoverdue) {
+        if ($cronoverdue && method_exists($check, 'cron_overdue_warning')) {
+            // Deprecated in Moodle 4.2 (MDL-74559); guard in case removed in future.
             $cronwarning .= $check->cron_overdue_warning($cronoverdue);
         }
 
@@ -110,7 +111,8 @@ if (!$data) { // Display the form.
         $expectedfrequency = isset($CFG->expectedcronfrequency) ? $CFG->expectedcronfrequency : MINSECS;
         $croninfrequent = !$cronoverdue && ($lastcroninterval > ($expectedfrequency + MINSECS)
                 || $lastcron < time() - $expectedfrequency);
-        if ($croninfrequent) {
+        if ($croninfrequent && method_exists($check, 'cron_infrequent_warning')) {
+            // Deprecated in Moodle 4.2 (MDL-74559); guard in case removed in future.
             $cronwarning .= $check->cron_infrequent_warning($croninfrequent);
         }
     } else { // Up to and including Moodle 3.6.
