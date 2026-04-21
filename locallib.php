@@ -145,9 +145,17 @@ function local_mailtest_checkdns($domain) {
     $message = '';
     $success = true;
 
-    $xmark = '<i class="fa fa-times-circle text-danger" aria-hidden="true"></i> ';
-    $checkmark = '<i class="fa fa-check-circle text-success" aria-hidden="true"></i> ';
-    $exclamation = '<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> ';
+    if ($CFG->branch >= 402) {
+        // Moodle 4.2+ uses Font Awesome 6.
+        $xmark       = '<i class="fa fa-circle-xmark text-danger" aria-hidden="true"></i> ';
+        $checkmark   = '<i class="fa fa-circle-check text-success" aria-hidden="true"></i> ';
+        $exclamation = '<i class="fa fa-triangle-exclamation text-warning" aria-hidden="true"></i> ';
+    } else {
+        // Moodle up to 4.1 uses Font Awesome 4.
+        $xmark       = '<i class="fa fa-times-circle text-danger" aria-hidden="true"></i> ';
+        $checkmark   = '<i class="fa fa-check-circle text-success" aria-hidden="true"></i> ';
+        $exclamation = '<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> ';
+    }
 
     // Check SPF records.
 
