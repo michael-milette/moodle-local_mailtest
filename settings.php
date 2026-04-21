@@ -31,8 +31,9 @@ if ($hassiteconfig) {
     } else { // Up to and including Moodle 3.1.
         $section = 'server';
     }
-    $ADMIN->add($section, new admin_externalpage('local_mailtest',
-            get_string('pluginname', 'local_mailtest'),
-            new moodle_url('/local/mailtest/')
+    $ADMIN->add($section, new admin_externalpage(
+        'local_mailtest',
+        get_string('pluginname', 'local_mailtest'),
+        new moodle_url('/local/mailtest/')
     ));
 }
