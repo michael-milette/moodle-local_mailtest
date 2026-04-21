@@ -34,10 +34,7 @@
  */
 function local_mailtest_generate_email_user($email, $name = '', $id = -99) {
     $emailuser = new stdClass();
-    $emailuser->email = trim(filter_var($email, FILTER_SANITIZE_EMAIL));
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailuser->email = '';
-    }
+    $emailuser->email = filter_var(trim($email), FILTER_VALIDATE_EMAIL) ? trim($email) : '';
     $name = format_text($name, FORMAT_HTML, ['trusted' => false, 'noclean' => false]);
     $emailuser->firstname = trim(htmlspecialchars($name, ENT_COMPAT));
     $emailuser->lastname = '';
