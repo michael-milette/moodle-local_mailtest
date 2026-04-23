@@ -21,7 +21,7 @@ jobs:
     # DB services you need for testing.
     services:
       postgres:
-        image: postgres:14
+        image: postgres:16
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -30,7 +30,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
 
       mariadb:
-        image: mariadb:10.11.0
+        image: mariadb:10.11
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
@@ -48,6 +48,20 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Moodle 5.2.x (MOODLE_502_STABLE).
+          - php: '8.4'
+            moodle-branch: 'MOODLE_502_STABLE'
+            database: 'mariadb'
+          - php: '8.3'
+            moodle-branch: 'MOODLE_502_STABLE'
+            database: 'pgsql'
+          # Moodle 5.1.x (MOODLE_501_STABLE).
+          - php: '8.4'
+            moodle-branch: 'MOODLE_501_STABLE'
+            database: 'mariadb'
+          - php: '8.3'
+            moodle-branch: 'MOODLE_501_STABLE'
+            database: 'pgsql'
           # Moodle 5.0.x (MOODLE_500_STABLE).
           - php: '8.4'
             moodle-branch: 'MOODLE_500_STABLE'
@@ -110,7 +124,7 @@ jobs:
           ini-values: max_input_vars=6000
           # If you are not using code coverage, keep "none". Otherwise, use "pcov" (Moodle 3.10 and up) or "xdebug".
           # If you try to use code coverage with "none", it will fallback to phpdbg (which has known problems).
-          coverage: pcov
+          coverage: none
 
       # Install this project into a directory called "ci", updating PATH and locale, define nvm location.
       - name: Initialise moodle-plugin-ci
@@ -156,11 +170,6 @@ jobs:
         continue-on-error: true # This step will show errors but will not fail
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phplint
-
-      - name: PHP Copy/Paste Detector
-        continue-on-error: true # This step will show errors but will not fail
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpcpd
 
       - name: PHP Mess Detector
         continue-on-error: true # This step will show errors but will not fail
